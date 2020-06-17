@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "centiva-registry-webform": {
+      "hosting": {
+        "centiva-registry-webform": [
+          "centiva-registry-webform"
+        ]
+      }
+    }
+  }
+}
