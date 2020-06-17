@@ -3,7 +3,17 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+	production: false,
+	firebaseConfig: {
+		apiKey: 'AIzaSyAoiAgiiRXpSU935rSqFG2jHGMzKVxxCuE',
+		authDomain: 'centiva-registry-webform.firebaseapp.com',
+		databaseURL: 'https://centiva-registry-webform.firebaseio.com',
+		projectId: 'centiva-registry-webform',
+		storageBucket: 'centiva-registry-webform.appspot.com',
+		messagingSenderId: '105725068065',
+		appId: '1:105725068065:web:e55e5830188bc52f93b460',
+		measurementId: 'G-GBLJJ723YT'
+	}
 };
 
 /*
