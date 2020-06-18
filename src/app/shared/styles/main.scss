@@ -1,0 +1,13 @@
+@import 'classes-generator';
+@import 'color-variables';
+@import 'font-size-variables';
+@import 'helper';
+@import 'shared';
+
+body {
+	font-family: 'Roboto', sans-serif !important;
+}
+*{
+  padding: 0;
+  margin: 0;
+}
