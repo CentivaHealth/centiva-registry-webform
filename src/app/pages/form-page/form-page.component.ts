@@ -12,6 +12,6 @@ export class FormPageComponent implements OnInit {
 	ngOnInit(): void {}
 
 	signOut(): void {
-		this.authService.SignOut();
+		this.authService.signOut();
 	}
 }

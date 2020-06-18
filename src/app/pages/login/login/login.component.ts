@@ -10,6 +10,6 @@ export class LoginComponent {
 	constructor(private authService: AuthService) {}
 
 	signIn(userName: string, userPassword: string): void {
-		this.authService.SignIn(userName, userPassword);
+		this.authService.signIn(userName, userPassword);
 	}
 }
