@@ -101,6 +101,7 @@ button {
   border: 1px solid $background-translucent-10;
   color: $black;
   font-size: $medium-body-text;
+  padding-left: 10px;
 
 	&:focus {
 		box-shadow: 0 0 4px rgba(82, 70, 211, 0.6);
@@ -123,4 +124,20 @@ button {
   font-weight: 600;
   font-style: normal;
   color: $black;
+}
+
+//Autocomplete Styles
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid $background-translucent-10;
+  //-webkit-text-fill-color: $black;
+  -webkit-box-shadow: 0 0 0px 1000px #F5F5F6 inset;
 }
