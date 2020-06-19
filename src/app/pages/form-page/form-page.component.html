@@ -25,11 +25,12 @@
 
 	<label class="input-box">
     <span class="mb-10">SARS-CoV-2 Test Result</span>
-    <select class="input-text-large" formControlName="testResult">
-      <option value="">Choose option</option>
+    <select class="select-text-large" formControlName="testResult">
+      <option value="">Please select</option>
       <option value="positive">positive</option>
       <option value="negative">negative</option>
     </select>
+    <div class="select-arrow">></div>
 	</label>
 
 	<button type="submit" class="button-primary mt-40" [disabled]="!form.valid">
