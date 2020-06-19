@@ -104,6 +104,8 @@ button {
   padding-left: 10px;
 
 	&:focus {
+    width: 340px;
+    height: 54px;
 		box-shadow: 0 0 4px rgba(82, 70, 211, 0.6);
 		border: 2px solid #5246d3;
 	}
@@ -126,6 +128,8 @@ button {
   padding-left: 10px;
 
   &:focus {
+    width: 618px;
+    height: 54px;
     box-shadow: 0 0 4px rgba(82, 70, 211, 0.6);
     border: 2px solid #5246d3;
   }
