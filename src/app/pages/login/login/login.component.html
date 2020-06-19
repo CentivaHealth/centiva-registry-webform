@@ -1,0 +1,42 @@
+<div class="login-container">
+	<div class="displayTable">
+		<div class="displayTableCell">
+			<div class="authBlock">
+				<h1 class="mt-40">Centiva Registry Webform</h1>
+				<h1 class="mt-40">Login</h1>
+
+				<div class="formGroup mt-40 item-holder">
+          <span class="input-label">E-mail</span>
+					<input
+						type="text"
+						class="input-text"
+						placeholder="Username"
+						#userName
+						required
+					/>
+				</div>
+
+				<div class="formGroup item-holder mt-20">
+          <span class="input-label">Password</span>
+					<input
+						type="password"
+						class="input-text"
+						placeholder="Password"
+						#userPassword
+						required
+					/>
+				</div>
+
+				<!-- Calling SignIn Api from AuthService -->
+				<div class="formGroup mt-20">
+					<input
+						type="button"
+						class="button-primary"
+						value="Sign in"
+						(click)="signIn(userName.value, userPassword.value)"
+					/>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -121,8 +121,16 @@
               "devServerTarget": "centiva-registry-webform:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
-    }},
-  "defaultProject": "centiva-registry-webform"
+    }
+  },
+  "defaultProject": "centiva-registry-webform",
+  "cli": {
+    "analytics": false
+  }
 }
