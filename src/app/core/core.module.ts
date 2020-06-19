@@ -1,4 +1,9 @@
-import { NgModule } from '@angular/core';
+import {
+	ModuleWithProviders,
+	NgModule,
+	Optional,
+	SkipSelf
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PagesModule } from '@pages/pages.module';
 import { LibsModule } from '@core/libs/libs.module';
@@ -9,4 +14,16 @@ import { AuthService } from '@core/services/auth/auth.service';
 	imports: [CommonModule, PagesModule, LibsModule],
 	providers: [AuthService]
 })
-export class CoreModule {}
+export class CoreModule {
+	constructor(@Optional() @SkipSelf() parentModule?: CoreModule) {
+		if (parentModule) {
+			throw new Error('CoreModule already loaded. Import in root module only.');
+		}
+	}
+
+	static forRoot(): ModuleWithProviders {
+		return {
+			ngModule: CoreModule
+		};
+	}
+}
