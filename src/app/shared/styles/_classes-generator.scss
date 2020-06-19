@@ -1,0 +1,55 @@
+/*
+  Next code generates classes for margins and paddings
+  Spaces from 0 to 10px goes with step = 2 and
+  From 10px to 60px with 5
+  USAGE: .mt-2, mb-15, pr-0, pl-30...
+*/
+$margin-amounts: ();
+$sides: (top, bottom, left, right);
+
+@for $i from 0 through 22 {
+	@if ($i <= 10 and $i % 2 == 0) {
+		$margin-amounts: append($margin-amounts, $i);
+	}
+	$margin-amounts: append($margin-amounts, $i * 5);
+}
+
+@for $margin-amount from 5 through 30 {
+	.m-#{$margin-amount} {
+		margin: #{$margin-amount}px !important;
+	}
+}
+
+@each $space in $margin-amounts {
+	@each $side in $sides {
+		$prefix: str-slice($side, 0, 1);
+		.m#{$prefix}-#{$space} {
+			margin-#{$side}: #{$space}px !important;
+		}
+		.p#{$prefix}-#{$space} {
+			padding-#{$side}: #{$space}px !important;
+		}
+	}
+}
+
+/*
+  Next code generates padding
+  sizes goes from 5px to 30px with step = 1
+  USAGE: .p-30, p-5, p-10..
+*/
+@for $padding-amount from 5 through 30 {
+	.p-#{$padding-amount} {
+		padding: #{$padding-amount}px !important;
+	}
+}
+
+/*
+  Next code generates classes for font-sizes
+  sizes goes from 10px to 24px with step = 1
+  USAGE: .fs-10, fs-12, fs-20...
+*/
+@for $font-amount from 10 through 24 {
+	.fs-#{$font-amount} {
+		font-size: #{$font-amount}px !important;
+	}
+}

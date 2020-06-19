@@ -1,0 +1,143 @@
+/*
+ This are the helper classes
+ Feel free to add your own
+ But please consider styles guides
+*/
+
+.no-wrap {
+	white-space: nowrap;
+}
+
+.display {
+	&-flex {
+		display: flex;
+	}
+	&-none {
+		display: none;
+	}
+}
+
+.margin-auto {
+	margin: auto;
+}
+
+.wrap {
+	flex-wrap: wrap;
+}
+
+.column {
+	flex-direction: column;
+}
+
+.space-between {
+	justify-content: space-between;
+}
+
+.space-around {
+	justify-content: space-around;
+}
+
+.center {
+	justify-content: center;
+}
+
+.align-items-center {
+	align-items: center;
+}
+
+.align-items-start {
+	align-items: flex-start;
+}
+
+.align-items-end {
+	align-items: flex-end;
+}
+
+.justify-end {
+	justify-content: flex-end;
+}
+
+.text-align-left {
+	text-align: left;
+}
+
+.w {
+	&-30 {
+		width: 30%;
+	}
+	&-40 {
+		width: 40%;
+	}
+	&-45 {
+		width: 45%;
+	}
+	&-50 {
+		width: 50%;
+	}
+	&-60 {
+		width: 60%;
+	}
+	&-100 {
+		width: 100%;
+	}
+}
+
+.h {
+	&-100 {
+		height: 100%;
+	}
+}
+
+.text {
+	&-bold {
+		font-weight: bold;
+	}
+	&-center {
+		text-align: center;
+	}
+	&-right {
+		text-align: right;
+	}
+	&-ellipsis {
+		text-overflow: ellipsis;
+	}
+	&-line-height {
+		&-16 {
+			line-height: 16px;
+		}
+		&-20 {
+			line-height: 20px;
+		}
+		&-22 {
+			line-height: 22px;
+		}
+		&-24 {
+			line-height: 24px;
+		}
+	}
+	&-break-all {
+		word-break: break-all;
+	}
+	&-break-word {
+		word-break: break-word;
+	}
+	&-uppercase {
+		text-transform: uppercase;
+	}
+}
+
+.white-space-pre-line {
+	white-space: pre-line;
+}
+
+.white-space-pre-wrap {
+	white-space: pre-wrap;
+}
+
+.overflow-hidden {
+	overflow: hidden;
+}
+
+.cursor-not-allowed {
+	cursor: not-allowed !important;
+}
