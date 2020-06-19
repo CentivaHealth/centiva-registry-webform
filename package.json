@@ -24,6 +24,7 @@
     "@firebase/auth": "^0.14.6",
     "@firebase/auth-types": "^0.10.1",
     "@firebase/firestore": "^1.15.1",
+    "angularx-qrcode": "^2.3.4",
     "firebase": "^7.15.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
