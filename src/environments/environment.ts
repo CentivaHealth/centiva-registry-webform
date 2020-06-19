@@ -5,14 +5,14 @@
 export const environment = {
 	production: false,
 	firebaseConfig: {
-		apiKey: 'AIzaSyAoiAgiiRXpSU935rSqFG2jHGMzKVxxCuE',
-		authDomain: 'centiva-registry-webform.firebaseapp.com',
-		databaseURL: 'https://centiva-registry-webform.firebaseio.com',
-		projectId: 'centiva-registry-webform',
-		storageBucket: 'centiva-registry-webform.appspot.com',
-		messagingSenderId: '105725068065',
-		appId: '1:105725068065:web:e55e5830188bc52f93b460',
-		measurementId: 'G-GBLJJ723YT'
+		apiKey: 'AIzaSyBfcdflKjboi3PK0oBAWBo2iHQyutC6Cfc',
+		authDomain: 'registry-test-280713.firebaseapp.com',
+		databaseURL: 'https://registry-test-280713.firebaseio.com',
+		projectId: 'registry-test-280713',
+		storageBucket: 'registry-test-280713.appspot.com',
+		messagingSenderId: '260208462896',
+		appId: '1:260208462896:web:54efb9054c28c14a6df1f5',
+		measurementId: 'G-7NZVWCY96T'
 	}
 };
 

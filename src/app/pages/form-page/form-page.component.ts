@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@core/services/auth/auth.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import {QRCodeModule} from 'angularx-qrcode';
 
 @Component({
 	selector: 'app-form-page',
@@ -14,7 +15,10 @@ export class FormPageComponent implements OnInit {
 		dateOfBirth: new FormControl(''),
 		testResult: new FormControl('')
 	});
-	constructor(private authService: AuthService) {}
+	myAngularxQrCode: string = null;
+	constructor(private authService: AuthService) {
+		this.myAngularxQrCode = 'Your QR code data string';
+	}
 
 	ngOnInit(): void {}
 
