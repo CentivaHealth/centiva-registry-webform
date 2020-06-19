@@ -1,26 +1,34 @@
-<p>form-page works!</p>
-<button class="button-small-blue" (click)="signOut()">Log Out</button>
+<div class="logout-container">
+	<button class="button-small-blue mt-20 mr-20" (click)="signOut()">Log Out</button>
+</div>
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-	<label>
+
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-fields-container">
+
+  <h1 class="mt-100 mb-40">SARS-CoV-2 Test Result</h1>
+
+	<label class="input-box">
 		name:
-		<input type="text" formControlName="name" />
+		<input class="input-text-large" type="text" formControlName="name" />
 	</label>
 
-	<label>
+	<label class="input-box">
 		Surname:
-		<input type="text" formControlName="surName" />
+		<input class="input-text-large" type="text" formControlName="surName" />
 	</label>
 
-	<label>
+	<label class="input-box">
 		dateOfBirth:
-		<input type="text" formControlName="dateOfBirth" />
+		<input class="input-text-large" type="text" formControlName="dateOfBirth" />
 	</label>
 
-	<label>
+	<label class="input-box">
 		testResult:
-		<input type="text" formControlName="testResult" />
+		<input class="input-text-large" type="text" formControlName="testResult" />
 	</label>
 
-  <button type="submit" [disabled]="!form.valid">Submit</button>
+	<button type="submit" class="button-primary mt-40" [disabled]="!form.valid">
+		Create PDF
+	</button>
 </form>
