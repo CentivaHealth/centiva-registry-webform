@@ -98,58 +98,88 @@ button {
 	height: 56px;
 	background: $background-translucent-5;
 	border-radius: 8px;
-  border: 1px solid $background-translucent-10;
-  color: $black;
-  font-size: $medium-body-text;
-  padding-left: 10px;
+	border: 1px solid $background-translucent-10;
+	color: $black;
+	font-size: $medium-body-text;
+	padding-left: 10px;
 
 	&:focus {
-    width: 340px;
-    height: 54px;
 		box-shadow: 0 0 4px rgba(82, 70, 211, 0.6);
 		border: 2px solid #5246d3;
 	}
-  &::placeholder{
-    color: $background-translucent-60;
-    font-size: $medium-body-text;
-    font-weight: 500;
-    padding-left: 10px;
-  }
+	&::placeholder {
+		color: $background-translucent-60;
+		font-size: $medium-body-text;
+		font-weight: 500;
+		padding-left: 10px;
+	}
 }
 
 .input-text-large {
-  width: 620px;
-  height: 56px;
-  background: $background-translucent-5;
-  border-radius: 8px;
-  border: 1px solid $background-translucent-10;
-  color: $black;
-  font-size: $medium-body-text;
-  padding-left: 10px;
+	width: 620px;
+	height: 56px;
+	background: $background-translucent-5;
+	border-radius: 8px;
+	border: 1px solid $background-translucent-10;
+	color: $black;
+	font-size: $medium-body-text;
+	padding-left: 10px;
 
-  &:focus {
-    width: 618px;
-    height: 54px;
-    box-shadow: 0 0 4px rgba(82, 70, 211, 0.6);
-    border: 2px solid #5246d3;
-  }
-  &::placeholder{
-    color: $background-translucent-60;
-    font-size: $medium-body-text;
-    font-weight: 500;
-    padding-left: 10px;
-  }
+	&:focus {
+		box-shadow: 0 0 4px rgba(82, 70, 211, 0.6);
+		border: 2px solid #5246d3;
+	}
+	&::placeholder {
+		color: $background-translucent-60;
+		font-size: $medium-body-text;
+		font-weight: 500;
+		padding-left: 10px;
+	}
+}
+
+//Select
+
+.select-text-large {
+	width: 620px;
+	height: 56px;
+	background: $background-translucent-5;
+	border-radius: 8px;
+	border: 1px solid $background-translucent-10;
+	color: $black;
+	font-size: $medium-body-text;
+	padding-left: 10px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+	&:focus {
+		box-shadow: 0 0 4px rgba(82, 70, 211, 0.6);
+		border: 2px solid #5246d3;
+	}
+	&::placeholder {
+		color: $background-translucent-60;
+		font-size: $medium-body-text;
+		font-weight: 500;
+		padding-left: 10px;
+	}
+}
+
+.select-arrow{
+  bottom: 12px;
+  right: 12px;
+  position: absolute;
+  font-size: 28px;
+  color: $background-translucent-80;
 }
 
 //Text Styles
 
 //Title
 
-.large-title{
-  font-size: 42px;
-  font-weight: 600;
-  font-style: normal;
-  color: $black;
+.large-title {
+	font-size: 42px;
+	font-weight: 600;
+	font-style: normal;
+	color: $black;
 }
 
 //Autocomplete Styles
@@ -163,7 +193,7 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  border: 1px solid $background-translucent-10;
-  //-webkit-text-fill-color: $black;
-  -webkit-box-shadow: 0 0 0px 1000px #F5F5F6 inset;
+	border: 1px solid $background-translucent-10;
+	//-webkit-text-fill-color: $black;
+	-webkit-box-shadow: 0 0 0px 1000px #f5f5f6 inset;
 }
