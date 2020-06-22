@@ -14,6 +14,7 @@ export class FormPageComponent implements OnInit {
 		name: new FormControl(''),
 		surName: new FormControl(''),
 		dateOfBirth: new FormControl(''),
+		testingDate: new FormControl(''),
 		testResult: new FormControl('')
 	});
 	myAngularxQrCode: string = '';

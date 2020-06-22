@@ -31,6 +31,15 @@
 			/>
 		</label>
 
+    <label class="input-box">
+      <span class="mb-10">Testing date</span>
+      <input
+        class="input-text-large"
+        type="text"
+        formControlName="testingDate"
+      />
+    </label>
+
 		<label class="input-box">
 			<span class="mb-10">SARS-CoV-2 Test Result</span>
 			<select class="select-text-large" formControlName="testResult">
@@ -72,6 +81,8 @@
 			<br />
 			<h3>Date of birth: {{ form.value.dateOfBirth }}</h3>
 			<br />
+      <h3>Testing date: {{ form.value.testingDate }}</h3>
+      <br />
 			<h3>SARS-CoV-2 Test Result: {{ form.value.testResult }}</h3>
 		</div>
 	</div>
