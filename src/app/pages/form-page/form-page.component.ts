@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AuthService } from '@core/services/auth/auth.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as jsPDF from 'jspdf';
@@ -8,8 +8,7 @@ import * as jsPDF from 'jspdf';
 	templateUrl: './form-page.component.html',
 	styleUrls: ['./form-page.component.scss']
 })
-export class FormPageComponent implements OnInit {
-	isQRCodeVisible = false;
+export class FormPageComponent {
 	form = new FormGroup({
 		name: new FormControl(''),
 		surName: new FormControl(''),
@@ -17,43 +16,49 @@ export class FormPageComponent implements OnInit {
 		testingDate: new FormControl(''),
 		testResult: new FormControl('')
 	});
-	myAngularxQrCode: string = '';
+	myAngularxQrCode = '';
 	@ViewChild('htmlData') htmlData: ElementRef;
-	constructor(private authService: AuthService) {}
 
-	ngOnInit(): void {}
+	constructor(private authService: AuthService) {}
 
 	signOut(): void {
 		this.authService.signOut();
 	}
 
-	onSubmit() {
+	onSubmit(): void {
+		// creating QR-code
 		this.myAngularxQrCode = JSON.stringify(this.form.value);
-		console.log(this.form.value);
+
+		setTimeout((): void => {
+			this.downloadPDF();
+		}, 0);
 	}
 
-	qwe() {
-		// this.isQRCodeVisible = !this.isQRCodeVisible;
-		console.log(this.htmlData.nativeElement);
-	}
+	// downloading PDF
+	downloadPDF(): void {
+		const qrcode = document.getElementById('qrcode');
+		const data = this.htmlData.nativeElement;
+		// form data
+		const doc = new jsPDF('p', 'pt', 'a4');
 
-	public downloadPDF(): void {
-		let DATA = this.htmlData.nativeElement;
-		let doc = new jsPDF('p', 'pt', 'a4');
-
-		doc.fromHTML(DATA.innerHTML, 150, 150, {
+		doc.fromHTML(data.innerHTML, 150, 150, {
 			width: 1200
 		});
 
-		doc.save('angular-demo.pdf');
+		// QR code img
+		const imageData = this.getBase64Image(qrcode.firstChild.firstChild);
+		doc.addImage(imageData, 'JPG', 136, 400);
+		doc.save(
+			`${this.form.value.name}-${this.form.value.surName}-test-result.pdf`
+		);
 	}
 
-	public openPDF(): void {
-		let DATA = this.htmlData.nativeElement;
-		let doc = new jsPDF('p', 'pt', 'a4');
-		doc.fromHTML(DATA.innerHTML, 150, 150, {
-			width: 1200
-		});
-		doc.output('dataurlnewwindow');
+	getBase64Image(img): string {
+		const canvas = document.createElement('canvas');
+		canvas.width = img.width;
+		canvas.height = img.height;
+		const ctx = canvas.getContext('2d');
+		ctx.drawImage(img, 0, 0);
+		return canvas.toDataURL('image/png');
 	}
 }

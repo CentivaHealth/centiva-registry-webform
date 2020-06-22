@@ -31,14 +31,14 @@
 			/>
 		</label>
 
-    <label class="input-box">
-      <span class="mb-10">Testing date</span>
-      <input
-        class="input-text-large"
-        type="text"
-        formControlName="testingDate"
-      />
-    </label>
+		<label class="input-box">
+			<span class="mb-10">Testing date</span>
+			<input
+				class="input-text-large"
+				type="text"
+				formControlName="testingDate"
+			/>
+		</label>
 
 		<label class="input-box">
 			<span class="mb-10">SARS-CoV-2 Test Result</span>
@@ -53,22 +53,19 @@
 		<button type="submit" class="button-primary mt-40" [disabled]="!form.valid">
 			Create PDF
 		</button>
-
-		<div class="{{ !isQRCodeVisible ? 'qr-hider' : '' }}">
-			<qrcode
-				[qrdata]="myAngularxQrCode"
-				[width]="256"
-				[errorCorrectionLevel]="'M'"
-			></qrcode>
-		</div>
 	</form>
-	<button class="mt-40" (click)="qwe()">qweqwe</button>
 </section>
-<button class="btn btn-danger btn-block" (click)="downloadPDF()">
-	Download PDF
-</button>
 
-<button (click)="openPDF()">openPDF</button>
+<!--This is hidden section that generates QR-code and PDF document fields-->
+
+<qrcode
+	id="qrcode"
+	[qrdata]="myAngularxQrCode"
+	[ngStyle]="{ display: 'none' }"
+	[width]="256"
+	[errorCorrectionLevel]="'M'"
+	[allowEmptyString]="true"
+></qrcode>
 
 <div class="pdf-container" id="htmlData" #htmlData>
 	<div class="data-container">
@@ -81,8 +78,8 @@
 			<br />
 			<h3>Date of birth: {{ form.value.dateOfBirth }}</h3>
 			<br />
-      <h3>Testing date: {{ form.value.testingDate }}</h3>
-      <br />
+			<h3>Testing date: {{ form.value.testingDate }}</h3>
+			<br />
 			<h3>SARS-CoV-2 Test Result: {{ form.value.testResult }}</h3>
 		</div>
 	</div>
