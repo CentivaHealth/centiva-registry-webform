@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@core/services/auth/auth.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import {QRCodeModule} from 'angularx-qrcode';
 
 @Component({
 	selector: 'app-form-page',
@@ -9,16 +8,15 @@ import {QRCodeModule} from 'angularx-qrcode';
 	styleUrls: ['./form-page.component.scss']
 })
 export class FormPageComponent implements OnInit {
+	isQRCodeVisible = false;
 	form = new FormGroup({
 		name: new FormControl(''),
 		surName: new FormControl(''),
 		dateOfBirth: new FormControl(''),
 		testResult: new FormControl('')
 	});
-	myAngularxQrCode: string = null;
-	constructor(private authService: AuthService) {
-		this.myAngularxQrCode = 'Your QR code data string';
-	}
+	myAngularxQrCode: string = '';
+	constructor(private authService: AuthService) {}
 
 	ngOnInit(): void {}
 
@@ -27,6 +25,11 @@ export class FormPageComponent implements OnInit {
 	}
 
 	onSubmit() {
+		this.myAngularxQrCode = JSON.stringify(this.form.value);
 		console.log(this.form.value);
+	}
+
+	qwe() {
+		this.isQRCodeVisible = !this.isQRCodeVisible;
 	}
 }
