@@ -7,18 +7,24 @@ import { AbstractControl, ValidatorFn, Validators } from '@angular/forms';
 export class ValidationService {
 	constructor() {}
 
-	setValidators(type?: string): ValidatorFn[] {
+	setValidators(type: string): ValidatorFn[] {
 		const emailPattern =
 			'^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$';
 		const validators: ValidatorFn[] = [];
-		validators.push(Validators.minLength(3));
-		validators.push(Validators.required);
-		validators.push(Validators.maxLength(255));
-		validators.push(this.checkSpaces());
+		if (type === 'text') {
+			validators.push(Validators.minLength(3));
+			validators.push(Validators.required);
+			validators.push(Validators.maxLength(255));
+			validators.push(this.checkSpaces());
+		}
+
 		if (type === 'email') {
 			validators.push(Validators.email);
 			validators.push(Validators.minLength(5));
 			validators.push(Validators.pattern(emailPattern));
+		}
+		if (type === 'date') {
+			validators.push(Validators.minLength(5));
 		}
 		return validators;
 	}

@@ -24,7 +24,9 @@ export class LoginComponent implements OnInit {
 			email: new FormControl('', [
 				...this.validationService.setValidators('email')
 			]),
-			password: new FormControl('', [...this.validationService.setValidators()])
+			password: new FormControl('', [
+				...this.validationService.setValidators('text')
+			])
 		});
 	}
 

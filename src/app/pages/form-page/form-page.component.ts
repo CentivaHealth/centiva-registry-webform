@@ -26,16 +26,20 @@ export class FormPageComponent implements OnInit {
 
 	createForm(): void {
 		this.form = new FormGroup({
-			name: new FormControl('', [...this.validationService.setValidators()]),
-			surName: new FormControl('', [...this.validationService.setValidators()]),
-			dateOfBirth: new FormControl('', [
-				...this.validationService.setValidators()
+			name: new FormControl('', [
+				...this.validationService.setValidators('text')
 			]),
-			testingDate: new FormControl('', [
-				...this.validationService.setValidators()
+			surName: new FormControl('', [
+				...this.validationService.setValidators('text')
+			]),
+			dateOfBirth: new FormControl('', [
+				...this.validationService.setValidators('date')
+			]),
+			testDate: new FormControl('', [
+				...this.validationService.setValidators('date')
 			]),
 			testResult: new FormControl('', [
-				...this.validationService.setValidators()
+				...this.validationService.setValidators('text')
 			])
 		});
 	}
