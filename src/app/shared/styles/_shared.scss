@@ -76,6 +76,19 @@ button {
 	}
 }
 
+.button-primary-disabled {
+  width: 343px;
+  height: 65px;
+  background: $grey-10;
+  color: $grey-20;
+  border-radius: 8px;
+  font-size: $medium-body-text;
+
+  &:active {
+    background: $blue-70;
+  }
+}
+
 // Small
 
 .button-small-blue {
