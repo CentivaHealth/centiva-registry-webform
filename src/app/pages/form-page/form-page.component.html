@@ -1,12 +1,11 @@
 <div class="logout-container">
-	<button class="button-small-blue mt-20 mr-20" (click)="signOut()">Log Out</button>
+	<button class="button-small-blue mt-20 mr-20" (click)="signOut()">
+		Log Out
+	</button>
 </div>
 
-
-
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-fields-container">
-
-  <h1 class="mt-100 mb-40">SARS-CoV-2 Test Result</h1>
+	<h1 class="mt-100 mb-40">SARS-CoV-2 Test Result</h1>
 
 	<label class="input-box">
 		<span class="mb-10">Name</span>
@@ -14,7 +13,7 @@
 	</label>
 
 	<label class="input-box">
-    <span class="mb-10">Surname</span>
+		<span class="mb-10">Surname</span>
 		<input class="input-text-large" type="text" formControlName="surName" />
 	</label>
 
@@ -24,18 +23,28 @@
 	</label>
 
 	<label class="input-box">
-    <span class="mb-10">SARS-CoV-2 Test Result</span>
-    <select class="select-text-large" formControlName="testResult">
-      <option value="">Please select</option>
-      <option value="positive">positive</option>
-      <option value="negative">negative</option>
-    </select>
-    <div class="select-arrow">></div>
+		<span class="mb-10">SARS-CoV-2 Test Result</span>
+		<select class="select-text-large" formControlName="testResult">
+			<option value="">Please select</option>
+			<option value="positive">positive</option>
+			<option value="negative">negative</option>
+		</select>
+		<div class="select-arrow">></div>
 	</label>
 
 	<button type="submit" class="button-primary mt-40" [disabled]="!form.valid">
 		Create PDF
 	</button>
+
+  <div class="{{ !isQRCodeVisible ? 'qr-hider' : '' }}">
+    <qrcode
+      [qrdata]="myAngularxQrCode"
+      [width]="256"
+      [errorCorrectionLevel]="'M'"
+    ></qrcode>
+  </div>
+  <button (click)="qwe()">qweqwe</button>
+
 </form>
 
-<qrcode [qrdata]="myAngularxQrCode" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+
