@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '@core/services/auth/auth.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import * as jsPDF from 'jspdf';
 
 @Component({
 	selector: 'app-form-page',
@@ -16,6 +17,7 @@ export class FormPageComponent implements OnInit {
 		testResult: new FormControl('')
 	});
 	myAngularxQrCode: string = '';
+	@ViewChild('htmlData') htmlData: ElementRef;
 	constructor(private authService: AuthService) {}
 
 	ngOnInit(): void {}
@@ -30,6 +32,27 @@ export class FormPageComponent implements OnInit {
 	}
 
 	qwe() {
-		this.isQRCodeVisible = !this.isQRCodeVisible;
+		// this.isQRCodeVisible = !this.isQRCodeVisible;
+		console.log(this.htmlData.nativeElement);
+	}
+
+	public downloadPDF(): void {
+		let DATA = this.htmlData.nativeElement;
+		let doc = new jsPDF('p', 'pt', 'a4');
+
+		doc.fromHTML(DATA.innerHTML, 150, 150, {
+			width: 1200
+		});
+
+		doc.save('angular-demo.pdf');
+	}
+
+	public openPDF(): void {
+		let DATA = this.htmlData.nativeElement;
+		let doc = new jsPDF('p', 'pt', 'a4');
+		doc.fromHTML(DATA.innerHTML, 150, 150, {
+			width: 1200
+		});
+		doc.output('dataurlnewwindow');
 	}
 }
