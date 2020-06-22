@@ -6,10 +6,11 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '@core/services/auth/auth.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
 	declarations: [],
-	imports: [CommonModule],
+	imports: [CommonModule, BrowserAnimationsModule],
 	providers: [AuthService]
 })
 export class CoreModule {
