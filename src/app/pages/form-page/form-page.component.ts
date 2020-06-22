@@ -1,12 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '@core/services/auth/auth.service';
-import {
-	AbstractControl,
-	FormControl,
-	FormGroup,
-	ValidatorFn,
-	Validators
-} from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import * as jsPDF from 'jspdf';
 import { ValidationService } from '@core/services/validation/validation.service';
 
@@ -26,6 +20,7 @@ export class FormPageComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
+		this.myAngularxQrCode = 'qrvalue';
 		this.createForm();
 	}
 
