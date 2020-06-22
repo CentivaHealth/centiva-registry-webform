@@ -50,7 +50,12 @@
 			<div class="select-arrow">></div>
 		</label>
 
-		<button type="submit" class="button-primary mt-40" [disabled]="!form.valid">
+		<button
+			type="submit"
+			class="button-primary mt-40"
+			[disabled]="!form.valid"
+			[ngClass]="{ 'button-primary-disabled': !form.valid }"
+		>
 			Create PDF
 		</button>
 	</form>
