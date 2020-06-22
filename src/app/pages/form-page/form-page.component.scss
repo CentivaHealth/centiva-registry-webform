@@ -16,3 +16,17 @@
 .qr-hider{
   display: none;
 }
+
+.pdf-container{
+  display: none;
+}
+.data-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.fields-box{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}

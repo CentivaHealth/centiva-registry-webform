@@ -1,50 +1,78 @@
-<div class="logout-container">
-	<button class="button-small-blue mt-20 mr-20" (click)="signOut()">
-		Log Out
-	</button>
+<section>
+	<div class="logout-container">
+		<button class="button-small-blue mt-20 mr-20" (click)="signOut()">
+			Log Out
+		</button>
+	</div>
+
+	<form
+		[formGroup]="form"
+		(ngSubmit)="onSubmit()"
+		class="form-fields-container"
+	>
+		<h1 class="mt-100 mb-40">SARS-CoV-2 Test Result</h1>
+
+		<label class="input-box">
+			<span class="mb-10">Name</span>
+			<input class="input-text-large" type="text" formControlName="name" />
+		</label>
+
+		<label class="input-box">
+			<span class="mb-10">Surname</span>
+			<input class="input-text-large" type="text" formControlName="surName" />
+		</label>
+
+		<label class="input-box">
+			<span class="mb-10">Date of birth</span>
+			<input
+				class="input-text-large"
+				type="text"
+				formControlName="dateOfBirth"
+			/>
+		</label>
+
+		<label class="input-box">
+			<span class="mb-10">SARS-CoV-2 Test Result</span>
+			<select class="select-text-large" formControlName="testResult">
+				<option value="">Please select</option>
+				<option value="positive">positive</option>
+				<option value="negative">negative</option>
+			</select>
+			<div class="select-arrow">></div>
+		</label>
+
+		<button type="submit" class="button-primary mt-40" [disabled]="!form.valid">
+			Create PDF
+		</button>
+
+		<div class="{{ !isQRCodeVisible ? 'qr-hider' : '' }}">
+			<qrcode
+				[qrdata]="myAngularxQrCode"
+				[width]="256"
+				[errorCorrectionLevel]="'M'"
+			></qrcode>
+		</div>
+	</form>
+	<button class="mt-40" (click)="qwe()">qweqwe</button>
+</section>
+<button class="btn btn-danger btn-block" (click)="downloadPDF()">
+	Download PDF
+</button>
+
+<button (click)="openPDF()">openPDF</button>
+
+<div class="pdf-container" id="htmlData" #htmlData>
+	<div class="data-container">
+		<div class="fields-box">
+			<h1>SARS-CoV-2 Test Result</h1>
+			<br />
+			<h3>Name: {{ form.value.name }}</h3>
+			<br />
+			<h3>Surname: {{ form.value.surName }}</h3>
+			<br />
+			<h3>Date of birth: {{ form.value.dateOfBirth }}</h3>
+			<br />
+			<h3>SARS-CoV-2 Test Result: {{ form.value.testResult }}</h3>
+		</div>
+	</div>
 </div>
-
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-fields-container">
-	<h1 class="mt-100 mb-40">SARS-CoV-2 Test Result</h1>
-
-	<label class="input-box">
-		<span class="mb-10">Name</span>
-		<input class="input-text-large" type="text" formControlName="name" />
-	</label>
-
-	<label class="input-box">
-		<span class="mb-10">Surname</span>
-		<input class="input-text-large" type="text" formControlName="surName" />
-	</label>
-
-	<label class="input-box">
-		<span class="mb-10">Date of birth</span>
-		<input class="input-text-large" type="text" formControlName="dateOfBirth" />
-	</label>
-
-	<label class="input-box">
-		<span class="mb-10">SARS-CoV-2 Test Result</span>
-		<select class="select-text-large" formControlName="testResult">
-			<option value="">Please select</option>
-			<option value="positive">positive</option>
-			<option value="negative">negative</option>
-		</select>
-		<div class="select-arrow">></div>
-	</label>
-
-	<button type="submit" class="button-primary mt-40" [disabled]="!form.valid">
-		Create PDF
-	</button>
-
-  <div class="{{ !isQRCodeVisible ? 'qr-hider' : '' }}">
-    <qrcode
-      [qrdata]="myAngularxQrCode"
-      [width]="256"
-      [errorCorrectionLevel]="'M'"
-    ></qrcode>
-  </div>
-  <button (click)="qwe()">qweqwe</button>
-
-</form>
-
-
