@@ -10,7 +10,7 @@
 		(ngSubmit)="onSubmit()"
 		class="form-fields-container"
 	>
-		<h1 class="mt-100 mb-40">SARS-CoV-2 Test Result</h1>
+		<h1 class="mt-30 mb-40">SARS-CoV-2 Test Result</h1>
 
 		<label class="input-box">
 			<span class="mb-10">Name</span>
@@ -55,9 +55,20 @@
 		</label>
 
 		<label class="input-box">
-			<span class="mb-10">SARS-CoV-2 Test Result</span>
+			<span class="mb-10">Test Provider</span>
+			<select class="select-text-large" formControlName="testProvider">
+				<option value=""></option>
+				<option value="Roche COVID Anti-SARS-CoV-2"
+					>Roche COVID Anti-SARS-CoV-2</option
+				>
+			</select>
+			<div class="select-arrow">></div>
+		</label>
+
+		<label class="input-box">
+			<span class="mb-10">Test Result</span>
 			<select class="select-text-large" formControlName="testResult">
-				<option value="">Please select</option>
+				<option value=""></option>
 				<option value="positive">positive</option>
 				<option value="negative">negative</option>
 			</select>
@@ -66,8 +77,8 @@
 
 		<button
 			type="submit"
-			class="button-primary mt-40"
 			[disabled]="!form.valid"
+			class="button-primary mt-40"
 			[ngClass]="{ 'button-primary-disabled': !form.valid }"
 		>
 			Create PDF
@@ -84,6 +95,7 @@
 	[width]="256"
 	[errorCorrectionLevel]="'M'"
 	[allowEmptyString]="true"
+  [version]="qrVersion"
 ></qrcode>
 
 <div class="pdf-container" id="htmlData" #htmlData>
@@ -95,11 +107,15 @@
 			<br />
 			<h3>Surname: {{ form.value.surName }}</h3>
 			<br />
-			<h3>Date of birth: {{ form.value.dateOfBirth }}</h3>
+			<h3>
+				Date of birth: {{ form.value.dateOfBirth | amDateFormat: 'YYYY-MM-DD' }}
+			</h3>
 			<br />
-			<h3>Test date: {{ form.value.testDate }}</h3>
+			<h3>Test date: {{ form.value.testDate | amDateFormat: 'YYYY-MM-DD' }}</h3>
 			<br />
-			<h3>SARS-CoV-2 Test Result: {{ form.value.testResult }}</h3>
+			<h3>Test Provider: {{ form.value.testProvider }}</h3>
+			<br />
+			<h3>Test Result: {{ form.value.testResult }}</h3>
 		</div>
 	</div>
 </div>
