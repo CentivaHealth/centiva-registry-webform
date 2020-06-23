@@ -90,12 +90,12 @@
 
 <qrcode
 	id="qrcode"
-	[qrdata]="myAngularxQrCode"
+	[qrdata]="qrDataString"
 	[ngStyle]="{ display: 'none' }"
 	[width]="256"
 	[errorCorrectionLevel]="'M'"
 	[allowEmptyString]="true"
-  [version]="qrVersion"
+	[version]="qrVersion"
 ></qrcode>
 
 <div class="pdf-container" id="htmlData" #htmlData>
