@@ -11,6 +11,7 @@ import {
 import { MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
 import * as moment from 'moment';
 
+// Date picker formats
 export const MY_MOMENT_FORMATS = {
 	parseInput: 'l LT',
 	fullPickerInput: 'l LT',
@@ -37,7 +38,7 @@ export const MY_MOMENT_FORMATS = {
 export class FormPageComponent implements OnInit {
 	qrVersion = 12;
 	form: FormGroup;
-	myAngularxQrCode: string;
+	qrDataString: string;
 	@ViewChild('htmlData') htmlData: ElementRef;
 
 	constructor(
@@ -46,7 +47,7 @@ export class FormPageComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		this.myAngularxQrCode = 'qrvalue';
+		this.qrDataString = 'default';
 		this.createForm();
 	}
 
@@ -90,7 +91,7 @@ export class FormPageComponent implements OnInit {
 
 		// creating QR-code
 		this.form.value.v = this.qrVersion;
-		this.myAngularxQrCode = JSON.stringify(this.form.value);
+		this.qrDataString = JSON.stringify(this.form.value);
 
 		setTimeout((): void => {
 			this.downloadPDF();
