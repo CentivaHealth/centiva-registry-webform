@@ -28,7 +28,9 @@
     "angularx-qrcode": "^2.3.4",
     "firebase": "^7.15.1",
     "jspdf": "^1.5.3",
+    "moment": "^2.27.0",
     "ng-pick-datetime": "^7.0.0",
+    "ngx-moment": "^4.0.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
