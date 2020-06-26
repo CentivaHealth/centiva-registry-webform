@@ -1,0 +1,28 @@
+.logout-container {
+	display: flex;
+	justify-content: flex-end;
+}
+.form-fields-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.input-box{
+  position: relative;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.pdf-container{
+  display: none;
+}
+.data-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.fields-box{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}

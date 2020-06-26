@@ -1,2 +1,121 @@
-<p>form-page works!</p>
-<button class="button-small-blue" (click)="signOut()">Log Out</button>
+<section>
+	<div class="logout-container">
+		<button class="button-small-blue mt-20 mr-20" (click)="signOut()">
+			Log Out
+		</button>
+	</div>
+
+	<form
+		[formGroup]="form"
+		(ngSubmit)="onSubmit()"
+		class="form-fields-container"
+	>
+		<h1 class="mt-30 mb-40">SARS-CoV-2 Test Result</h1>
+
+		<label class="input-box">
+			<span class="mb-10">Name</span>
+			<input class="input-text-large" type="text" formControlName="name" />
+		</label>
+
+		<label class="input-box">
+			<span class="mb-10">Surname</span>
+			<input class="input-text-large" type="text" formControlName="surName" />
+		</label>
+
+		<label class="input-box">
+			<span class="mb-10">Date of birth</span>
+			<input
+				[owlDateTime]="dateOfBirth"
+				[owlDateTimeTrigger]="dateOfBirth"
+				class="input-text-large"
+				type="text"
+				formControlName="dateOfBirth"
+			/>
+			<owl-date-time
+				[pickerType]="'calendar'"
+				[startView]="'multi-years'"
+				#dateOfBirth
+			></owl-date-time>
+		</label>
+
+		<label class="input-box">
+			<span class="mb-10">Test date</span>
+			<input
+				[owlDateTime]="testDate"
+				[owlDateTimeTrigger]="testDate"
+				class="input-text-large"
+				type="text"
+				formControlName="testDate"
+			/>
+			<owl-date-time
+				[pickerType]="'calendar'"
+				[startView]="'year'"
+				#testDate
+			></owl-date-time>
+		</label>
+
+		<label class="input-box">
+			<span class="mb-10">Test Provider</span>
+			<select class="select-text-large" formControlName="testProvider">
+				<option value=""></option>
+				<option value="Roche COVID Anti-SARS-CoV-2"
+					>Roche COVID Anti-SARS-CoV-2</option
+				>
+			</select>
+			<div class="select-arrow">></div>
+		</label>
+
+		<label class="input-box">
+			<span class="mb-10">Test Result</span>
+			<select class="select-text-large" formControlName="testResult">
+				<option value=""></option>
+				<option value="positive">positive</option>
+				<option value="negative">negative</option>
+			</select>
+			<div class="select-arrow">></div>
+		</label>
+
+		<button
+			type="submit"
+			[disabled]="!form.valid"
+			class="button-primary mt-40"
+			[ngClass]="{ 'button-primary-disabled': !form.valid }"
+		>
+			Create PDF
+		</button>
+	</form>
+</section>
+
+<!--This is hidden section that generates QR-code and PDF document fields-->
+
+<qrcode
+	id="qrcode"
+	[qrdata]="qrDataString"
+	[ngStyle]="{ display: 'none' }"
+	[width]="256"
+	[errorCorrectionLevel]="'M'"
+	[allowEmptyString]="true"
+	[version]="qrVersion"
+></qrcode>
+
+<div class="pdf-container" id="htmlData" #htmlData>
+	<div class="data-container">
+		<div class="fields-box">
+			<h1>SARS-CoV-2 Test Result</h1>
+			<br />
+			<h3>Name: {{ form.value.name }}</h3>
+			<br />
+			<h3>Surname: {{ form.value.surName }}</h3>
+			<br />
+			<h3>
+				Date of birth: {{ form.value.dateOfBirth | amDateFormat: 'YYYY-MM-DD' }}
+			</h3>
+			<br />
+			<h3>Test date: {{ form.value.testDate | amDateFormat: 'YYYY-MM-DD' }}</h3>
+			<br />
+			<h3>Test Provider: {{ form.value.testProvider }}</h3>
+			<br />
+			<h3>Test Result: {{ form.value.testResult }}</h3>
+		</div>
+	</div>
+</div>

@@ -1,25 +1,31 @@
 <div class="login-container">
 	<div class="displayTable">
 		<div class="displayTableCell">
-			<div class="authBlock">
+			<form
+				class="authBlock"
+				[formGroup]="form"
+				(ngSubmit)="signIn(userName.value, userPassword.value)"
+			>
 				<h1 class="mt-40">Centiva Registry Webform</h1>
 				<h1 class="mt-40">Login</h1>
 
 				<div class="formGroup mt-40 item-holder">
-          <span class="input-label">E-mail</span>
+					<span class="input-label mb-10">E-mail</span>
 					<input
 						type="text"
+						formControlName="email"
 						class="input-text"
-						placeholder="Username"
+						placeholder="E-mail"
 						#userName
 						required
 					/>
 				</div>
 
 				<div class="formGroup item-holder mt-20">
-          <span class="input-label">Password</span>
+					<span class="input-label mb-10">Password</span>
 					<input
 						type="password"
+						formControlName="password"
 						class="input-text"
 						placeholder="Password"
 						#userPassword
@@ -29,14 +35,16 @@
 
 				<!-- Calling SignIn Api from AuthService -->
 				<div class="formGroup mt-20">
-					<input
-						type="button"
+					<button
+						type="submit"
 						class="button-primary"
-						value="Sign in"
-						(click)="signIn(userName.value, userPassword.value)"
-					/>
+						[disabled]="!form.valid"
+						[ngClass]="{ 'button-primary-disabled': !form.valid }"
+					>
+						Sign in
+					</button>
 				</div>
-			</div>
+			</form>
 		</div>
 	</div>
 </div>

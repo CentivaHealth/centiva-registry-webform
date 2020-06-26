@@ -1,3 +1,4 @@
+@import 'date-picker-styles';
 @import 'classes-generator';
 @import 'color-variables';
 @import 'font-size-variables';
@@ -10,8 +11,9 @@ body {
 *{
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
-button, input{
+button, input, select{
   outline: none;
 }

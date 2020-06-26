@@ -1,25 +1,42 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoginComponent } from './login.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from '@pages/login/login/login.component';
+import { AuthService } from '@core/services/auth/auth.service';
+import { ValidationService } from '@core/services/validation/validation.service';
 
-describe('LoginComponent', () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
+describe('LoginComponent', (): void => {
+	let component: LoginComponent;
+	let fixture: ComponentFixture<LoginComponent>;
+	let authService: any;
+	let validationService: any;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ LoginComponent ]
-    })
-    .compileComponents();
-  }));
+	beforeEach(async((): void => {
+		authService = jasmine.createSpyObj('AuthService', [
+			'signIn',
+			'setUserData',
+			'signOut'
+		]);
+		validationService = jasmine.createSpyObj('ValidationService', [
+			'setValidators'
+		]);
+		TestBed.configureTestingModule({
+			declarations: [LoginComponent],
+			imports: [ReactiveFormsModule],
+			providers: [
+				{ provide: AuthService, useValue: authService },
+				{ provide: ValidationService, useValue: validationService }
+			]
+		}).compileComponents();
+	}));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(LoginComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+	beforeEach((): void => {
+		fixture = TestBed.createComponent(LoginComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+	it('should create', (): void => {
+		expect(component).toBeTruthy();
+	});
 });
