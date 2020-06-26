@@ -13,7 +13,7 @@ karma.conf.js
 .eslintrc.js
 /reports/
 /.appRoutingModule/
-
+/src/models/proto
 
 
 

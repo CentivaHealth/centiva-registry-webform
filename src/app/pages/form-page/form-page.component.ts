@@ -10,6 +10,7 @@ import {
 } from 'ng-pick-datetime';
 import { MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
 import * as moment from 'moment';
+import { InfoHashService } from '@core/services/info-hash/info-hash.service';
 
 // Date picker formats
 export const MY_MOMENT_FORMATS = {
@@ -43,7 +44,8 @@ export class FormPageComponent implements OnInit {
 
 	constructor(
 		private authService: AuthService,
-		private validationService: ValidationService
+		private validationService: ValidationService,
+		private infoHashService: InfoHashService
 	) {}
 
 	ngOnInit(): void {
@@ -79,6 +81,7 @@ export class FormPageComponent implements OnInit {
 	}
 
 	onSubmit(): void {
+    this.infoHashService.sendInfoHash('')
 		// formatting date fields
 		this.form.value.dateOfBirth = this.formatDate(
 			this.form.value.dateOfBirth,
