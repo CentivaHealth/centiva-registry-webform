@@ -7,10 +7,11 @@ import {
 import { CommonModule } from '@angular/common';
 import { AuthService } from '@core/services/auth/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
 	declarations: [],
-	imports: [CommonModule, BrowserAnimationsModule],
+	imports: [CommonModule, BrowserAnimationsModule, HttpClientModule],
 	providers: [AuthService]
 })
 export class CoreModule {

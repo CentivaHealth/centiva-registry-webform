@@ -96,9 +96,9 @@ export class FormPageComponent implements OnInit {
 		this.form.value.v = this.qrVersion;
 		this.qrDataString = JSON.stringify(this.form.value);
 
-		setTimeout((): void => {
-			this.downloadPDF();
-		}, 0);
+		// setTimeout((): void => {
+		// 	this.downloadPDF();
+		// }, 0);
 	}
 
 	formatDate(formFieldValue: Date, dateFormat: string): string {
