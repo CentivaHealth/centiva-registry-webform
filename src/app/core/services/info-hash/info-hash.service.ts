@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { FormDataModel } from '@shared/type-models/form.model';
+import SHA3 from 'sha3';
 import { health } from '../../../../models/proto/provider-add-info-hash';
 import AddInfoHashRequest = health.centiva.registry.model.AddInfoHashRequest;
 
@@ -8,6 +10,8 @@ import AddInfoHashRequest = health.centiva.registry.model.AddInfoHashRequest;
 })
 export class InfoHashService {
 	constructor(private http: HttpClient) {}
+	url =
+		'https://europe-west6-registry-test-280713.cloudfunctions.net/provider-add-info-hash';
 
 	sendInfoHash(infoHash) {
 		const byteTest = new Uint8Array(10);
@@ -20,25 +24,32 @@ export class InfoHashService {
 		};
 		let message = AddInfoHashRequest.create(testData);
 		let buffer = AddInfoHashRequest.encode(message).finish();
-		let decoded = AddInfoHashRequest.decode(buffer);
-		console.log(`encoded = ${buffer}`);
-		console.log(`decoded = ${JSON.stringify(decoded)}`);
 
-		const user = localStorage.getItem('user')
-    console.log(user);
-
-    const testToken =
-			'eyJhbGciOiJSUzI1NiIsImtpZCI6IjdkNTU0ZjBjMTJjNjQ3MGZiMTg1MmY3OWRiZjY0ZjhjODQzYmIxZDciLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcmVnaXN0cnktdGVzdC0yODA3MTMiLCJhdWQiOiJyZWdpc3RyeS10ZXN0LTI4MDcxMyIsImF1dGhfdGltZSI6MTU5MzE5NDAyNCwidXNlcl9pZCI6IjhTUGMyb040Z05UY2E1MHpFWnNPYnhja3dybTEiLCJzdWIiOiI4U1BjMm9ONGdOVGNhNTB6RVpzT2J4Y2t3cm0xIiwiaWF0IjoxNTkzMTk0MDI0LCJleHAiOjE1OTMxOTc2MjQsImVtYWlsIjoicXdlQHF3ZS5xd2UiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsicXdlQHF3ZS5xd2UiXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.TUYxgGpKeON-Hn-kY7PaGHzfi_CgE8hhJYYhnHeM2AYErt5RbhFx9t2HbHABr37wPGMzMjPj__wQre7MhIA10tTC6hNK5c7uX9Hvi2osdDOxhTC-yr9x-XwDrNBfAfYdSvz1Npw3p0Eg71jJoyMaWZUiU_62XoantW95bARPicxy_AL97RgOLG4wQWYQBPFZhMm_IcuKCLh_9HVR-9RLta4lMti0Dl1FTtxpuTtWRIdNG7W2N8yy3-XApUXDc9C6fN2RW-eXNSwwaqhrw2y50rJcjUBQgMtyZ6c-rFDjRmedbjt-FY2SXJm8tvWA0lm6bpoVIAvlmZSesLwg5KJK7A';
-		const testURL =
-			'https://europe-west6-registry-test-280713.cloudfunctions.net/provider-add-info-hash';
+		const user = JSON.parse(localStorage.getItem('user'));
+		const accessToken = user.stsTokenManager.accessToken;
 
 		const headers = new HttpHeaders({
-			Authorization: testToken,
+			Authorization: accessToken,
 			Accept: 'application/x-protobuf',
 			'Content-type': 'application/x-protobuf'
 		});
 		this.http
-			.post(testURL, buffer, { headers, responseType: 'arraybuffer' })
+			.post(this.url, buffer, { headers, responseType: 'arraybuffer' })
 			.subscribe(console.log);
+	}
+
+	hashDataString(formData: FormDataModel): string {
+		const hash = new SHA3(512);
+		hash.update(this.formatDataString(formData));
+		const encoded = hash.digest('hex');
+		console.log(encoded);
+		return encoded;
+	}
+
+	formatDataString(data: FormDataModel): string {
+		const name = data.name.trim();
+		const surName = data.surName.trim();
+		const dataString = `name:${name};surname:${surName};dateOfBirth:${data.dateOfBirth};testDate:${data.testDate};testProvider:${data.testProvider};testResult:${data.testResult}`;
+		return dataString;
 	}
 }

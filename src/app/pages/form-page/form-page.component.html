@@ -75,10 +75,9 @@
 			<div class="select-arrow">></div>
 		</label>
 
-<!--    [disabled]="!form.valid"-->
-
-    <button
+		<button
 			type="submit"
+			[disabled]="!form.valid"
 			class="button-primary mt-40"
 			[ngClass]="{ 'button-primary-disabled': !form.valid }"
 		>
@@ -96,7 +95,6 @@
 	[width]="256"
 	[errorCorrectionLevel]="'M'"
 	[allowEmptyString]="true"
-	[version]="qrVersion"
 ></qrcode>
 
 <div class="pdf-container" id="htmlData" #htmlData>
@@ -117,6 +115,8 @@
 			<h3>Test Provider: {{ form.value.testProvider }}</h3>
 			<br />
 			<h3>Test Result: {{ form.value.testResult }}</h3>
+			<br />
+			<h3>v:{{ version }}</h3>
 		</div>
 	</div>
 </div>

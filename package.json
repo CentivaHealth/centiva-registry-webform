@@ -36,6 +36,7 @@
 		"ng-pick-datetime": "^7.0.0",
 		"ngx-moment": "^4.0.1",
 		"rxjs": "~6.5.4",
+		"sha3": "^2.1.2",
 		"ts-protoc-gen": "^0.12.0",
 		"tslib": "^1.10.0",
 		"zone.js": "~0.10.2"
@@ -46,7 +47,7 @@
 		"@angular/compiler-cli": "~9.1.11",
 		"@types/jasmine": "~3.5.0",
 		"@types/jasminewd2": "~2.0.3",
-		"@types/node": "^12.11.1",
+		"@types/node": "^12.12.47",
 		"codelyzer": "^5.1.2",
 		"eslint": "^5.16.0",
 		"eslint-config-airbnb-base": "^14.2.0",
