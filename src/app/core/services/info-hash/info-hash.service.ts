@@ -6,13 +6,13 @@ import SHA3 from 'sha3';
 import { health } from '../../../../models/proto/provider-add-info-hash';
 import AddInfoHashRequest = health.centiva.registry.model.AddInfoHashRequest;
 import IAddInfoHashRequest = health.centiva.registry.model.IAddInfoHashRequest;
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class InfoHashService {
-	url =
-		'https://europe-west6-registry-test-280713.cloudfunctions.net/provider-add-info-hash';
+	url = environment.providerURL;
 
 	constructor(private http: HttpClient) {}
 
@@ -57,7 +57,7 @@ export class InfoHashService {
 	formatDataString(data: FormDataModel): string {
 		const name = data.name.trim();
 		const surName = data.surName.trim();
-		const dataString = `name:${name};surname:${surName};dateOfBirth:${data.dateOfBirth};testDate:${data.testDate};testProvider:${data.testProvider};testResult:${data.testResult}`;
+		const dataString = `name:${name};surname:${surName};dateOfBirth:${data.dateOfBirth};testDate:${data.testDate};testProvider:${data.testProvider};testResult:${data.testResult};labName:MedLab;`;
 		return dataString;
 	}
 }

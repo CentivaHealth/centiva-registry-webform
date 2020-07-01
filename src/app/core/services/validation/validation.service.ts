@@ -38,7 +38,7 @@ export class ValidationService {
 
 	private checkSpaces(): ValidatorFn {
 		return (control: AbstractControl): { [key: string]: any } => {
-			if (control.value !== '') {
+			if (control.value) {
 				return control.value.trim().length !== 0
 					? null
 					: { whitespace: 'value is only whitespace' };

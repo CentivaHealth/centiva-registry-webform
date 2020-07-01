@@ -41,6 +41,7 @@ export const MY_MOMENT_FORMATS = {
 })
 export class FormPageComponent implements OnInit {
 	version: string;
+	labName: string;
 	form: FormGroup;
 	qrDataString: string;
 	addInfoHashData: IAddInfoHashRequest;
@@ -56,6 +57,7 @@ export class FormPageComponent implements OnInit {
 	ngOnInit(): void {
 		this.qrDataString = 'default';
 		this.version = '1';
+		this.labName = 'MedLab';
 		this.createForm();
 	}
 
@@ -91,7 +93,7 @@ export class FormPageComponent implements OnInit {
 		this.addInfoHashData = {
 			infoHash: this.infoHashService.hashDataString(this.form.value),
 			labId: null,
-			labName: this.form.value.testProvider || null,
+			testProvider: this.form.value.testProvider || null,
 			version: this.version || null,
 			testDate: this.validateDate(this.form.value.testDate),
 			testResult: this.form.value.testResult || null
@@ -116,26 +118,28 @@ export class FormPageComponent implements OnInit {
 		this.prepareAddInfoHashData();
 		this.infoHashService.sendInfoHash(this.addInfoHashData).subscribe(
 			(): void => this.onSendInfoHashSuccess(),
-			(error): void => this.onSendInfoHashError(error)
+			(error): void => this.onSendInfoHashError(error.error)
 		);
 
 		// creating QR-code
 		this.prepateQRData();
 	}
 
-	prepateQRData(): void {
-		this.form.value.v = this.version; // adding version to QR-code
-		this.qrDataString = JSON.stringify(this.form.value);
-	}
-
 	onSendInfoHashSuccess(): void {
-		this.messageHandlerService.successMessage('info hash is saved');
 		this.downloadPDF();
+		this.messageHandlerService.successMessage('PDF was created.');
+		this.form.reset();
 	}
 
 	onSendInfoHashError(error): void {
 		const errorMessage = this.messageHandlerService.decodeMessage(error);
 		this.messageHandlerService.errorMessage(errorMessage);
+	}
+
+	prepateQRData(): void {
+		this.form.value.labName = this.labName;
+		this.form.value.v = this.version; // adding version to QR-code
+		this.qrDataString = JSON.stringify(this.form.value);
 	}
 
 	formatDate(formFieldValue: Date, dateFormat: string): string {
