@@ -92,7 +92,6 @@ export class FormPageComponent implements OnInit {
 		this.addInfoHashData = null;
 		this.addInfoHashData = {
 			infoHash: this.infoHashService.hashDataString(this.form.value),
-			labId: null,
 			testProvider: this.form.value.testProvider || null,
 			version: this.version || null,
 			testDate: this.validateDate(this.form.value.testDate),
@@ -118,7 +117,7 @@ export class FormPageComponent implements OnInit {
 		this.prepareAddInfoHashData();
 		this.infoHashService.sendInfoHash(this.addInfoHashData).subscribe(
 			(): void => this.onSendInfoHashSuccess(),
-			(error): void => this.onSendInfoHashError(error.error)
+			(error): void => this.onSendInfoHashError(error)
 		);
 
 		// creating QR-code
@@ -132,7 +131,14 @@ export class FormPageComponent implements OnInit {
 	}
 
 	onSendInfoHashError(error): void {
-		const errorMessage = this.messageHandlerService.decodeMessage(error);
+		let errorMessage = 'Server error';
+		if (error.status === 400) {
+			errorMessage = 'Bad Request';
+		}
+		if (error.status === 500) {
+			errorMessage = 'Internal Server Error';
+		}
+		// const errorMessage = this.messageHandlerService.decodeMessage(error);
 		this.messageHandlerService.errorMessage(errorMessage);
 	}
 
