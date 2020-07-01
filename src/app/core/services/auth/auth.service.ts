@@ -7,6 +7,7 @@ import {
 import { Router } from '@angular/router';
 import { User } from '@core/models/models';
 import { BehaviorSubject } from 'rxjs';
+import { MessageHandlerService } from '@core/services/message-handler/message-handler.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -18,7 +19,8 @@ export class AuthService {
 	constructor(
 		public afs: AngularFirestore, // Inject Firestore service
 		public afAuth: AngularFireAuth, // Inject Firebase auth service
-		public router: Router
+		public router: Router,
+		private messageHandlerService: MessageHandlerService
 	) {
 		/* Saving user data in localstorage when
     logged in and setting up null when logged out */
@@ -49,7 +51,7 @@ export class AuthService {
 				this.setUserData(result.user);
 			})
 			.catch((error): void => {
-				window.alert(error.message);
+				this.messageHandlerService.errorMessage(error.message);
 			});
 	}
 
