@@ -40,10 +40,7 @@ export class LoginComponent implements OnInit {
 		this.authService.userIsLoggedIn
 			.pipe(filter((data): boolean => !data))
 			.subscribe(
-				(data: boolean) => {
-					if (!data) {
-						return;
-					}
+				(): void => {
 					this.router.navigateByUrl('form');
 				},
 				(error): void => this.messageHandlerService.errorMessage(error.message)
