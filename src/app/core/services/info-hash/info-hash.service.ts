@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormDataModel } from '@shared/type-models/form.model';
+import { Observable } from 'rxjs';
 import SHA3 from 'sha3';
 import { health } from '../../../../models/proto/provider-add-info-hash';
 import AddInfoHashRequest = health.centiva.registry.model.AddInfoHashRequest;
@@ -10,11 +11,30 @@ import IAddInfoHashRequest = health.centiva.registry.model.IAddInfoHashRequest;
 	providedIn: 'root'
 })
 export class InfoHashService {
-	constructor(private http: HttpClient) {}
 	url =
 		'https://europe-west6-registry-test-280713.cloudfunctions.net/provider-add-info-hash';
 
-	sendInfoHash(data: IAddInfoHashRequest) {
+	constructor(private http: HttpClient) {}
+
+	sendInfoHash(data: IAddInfoHashRequest): Observable<ArrayBuffer> {
+		const headers = new HttpHeaders({
+			Authorization: this.getAccessToken(),
+			'Content-Type': 'application/x-protobuf',
+			Accept: 'application/x-protobuf'
+		});
+		return this.http.post(this.url, this.prepareRequestArrayBuffer(data), {
+			headers,
+			responseType: 'arraybuffer'
+		});
+	}
+
+	getAccessToken(): string {
+		const user = JSON.parse(localStorage.getItem('user'));
+		const accessToken = user.stsTokenManager.accessToken;
+		return accessToken;
+	}
+
+	prepareRequestArrayBuffer(data: IAddInfoHashRequest) {
 		const message = AddInfoHashRequest.create(data);
 		const encodedRequest = AddInfoHashRequest.encode(message).finish();
 
@@ -24,19 +44,7 @@ export class InfoHashService {
 			offset,
 			offset + length
 		);
-
-		const user = JSON.parse(localStorage.getItem('user'));
-		const accessToken = user.stsTokenManager.accessToken;
-
-		const headers = new HttpHeaders({
-			Authorization: accessToken,
-			'Content-Type': 'application/x-protobuf',
-			Accept: 'application/x-protobuf'
-		});
-		return this.http.post(this.url, requestArrayBuffer, {
-			headers,
-			responseType: 'arraybuffer'
-		});
+		return requestArrayBuffer;
 	}
 
 	hashDataString(formData: FormDataModel) {

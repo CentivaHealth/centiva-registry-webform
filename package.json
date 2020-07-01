@@ -8,7 +8,8 @@
 		"test": "ng test",
 		"lint": "ng lint",
 		"e2e": "ng e2e",
-		"pbts": "pbjs -t static-module src/proto/api/provider_add_info_hash.proto -o src/models/proto/provider-add-info-hash.js && pbts --no-comments src/models/proto/provider-add-info-hash.js -o src/models/proto/provider-add-info-hash.d.ts"
+		"create-js-ts-from-proto-add-info-hash": "pbjs -t static-module src/proto/api/provider_add_info_hash.proto -o src/models/proto/provider-add-info-hash.js && pbts --no-comments src/models/proto/provider-add-info-hash.js -o src/models/proto/provider-add-info-hash.d.ts",
+		"create-js-ts-from-proto-error-response": "pbjs -t static-module src/proto/api/error_response.proto -o src/models/proto/error-response.js && pbts --no-comments src/models/proto/error-response.js -o src/models/proto/error-response.d.ts"
 	},
 	"private": true,
 	"dependencies": {
@@ -35,6 +36,7 @@
 		"moment": "^2.27.0",
 		"ng-pick-datetime": "^7.0.0",
 		"ngx-moment": "^4.0.1",
+		"ngx-toastr": "^12.1.0",
 		"rxjs": "~6.5.4",
 		"sha3": "^2.1.2",
 		"ts-protoc-gen": "^0.12.0",

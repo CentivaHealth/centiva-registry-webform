@@ -11,6 +11,8 @@ import {
 import { MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
 import * as moment from 'moment';
 import { InfoHashService } from '@core/services/info-hash/info-hash.service';
+import { MessageHandlerService } from '@core/services/message-handler/message-handler.service';
+import { ToastContainerDirective } from 'ngx-toastr';
 import { health } from '../../../models/proto/provider-add-info-hash';
 import IAddInfoHashRequest = health.centiva.registry.model.IAddInfoHashRequest;
 
@@ -39,6 +41,7 @@ export const MY_MOMENT_FORMATS = {
 	]
 })
 export class FormPageComponent implements OnInit {
+	@ViewChild(ToastContainerDirective, { static: true })
 	version = '1';
 	form: FormGroup;
 	qrDataString: string;
@@ -48,7 +51,8 @@ export class FormPageComponent implements OnInit {
 	constructor(
 		private authService: AuthService,
 		private validationService: ValidationService,
-		private infoHashService: InfoHashService
+		private infoHashService: InfoHashService,
+		private messageHandlerService: MessageHandlerService
 	) {}
 
 	ngOnInit(): void {
@@ -84,14 +88,21 @@ export class FormPageComponent implements OnInit {
 	}
 
 	prepareAddInfoHashData() {
+		this.form.value.v = this.version;
+		this.addInfoHashData = null;
 		this.addInfoHashData = {
 			infoHash: this.infoHashService.hashDataString(this.form.value),
 			labId: null,
-			labName: this.form.value.testProvider,
-			version: this.version,
-			testDate: this.form.value.testDate,
-			testResult: this.form.value.testResult
+			labName: this.form.value.testProvider || null,
+			version: this.version || null,
+			testDate: this.validateDate(this.form.value.testDate),
+			testResult: this.form.value.testResult || null
 		};
+		console.log(this.addInfoHashData);
+	}
+
+	validateDate(dateString: string): string | null {
+		return dateString === 'Invalid date' ? null : dateString;
 	}
 
 	onSubmit(): void {
@@ -116,17 +127,18 @@ export class FormPageComponent implements OnInit {
 		);
 
 		// creating QR-code
-		this.form.value.v = this.version;
 		this.qrDataString = JSON.stringify(this.form.value);
-
-		setTimeout((): void => {
-			this.downloadPDF();
-		}, 0);
 	}
 
-	onSendInfoHashSuccess(): void {}
+	onSendInfoHashSuccess(): void {
+		this.messageHandlerService.successMessage('info hash is saved');
+		this.downloadPDF();
+	}
 
-	onSendInfoHashError(error): void {}
+	onSendInfoHashError(error): void {
+		const errorMessage = this.messageHandlerService.decodeMessage(error);
+		this.messageHandlerService.errorMessage(errorMessage);
+	}
 
 	formatTestResult(testResult: string) {
 		if (testResult === 'positive') {

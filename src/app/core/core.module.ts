@@ -7,7 +7,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { AuthService } from '@core/services/auth/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
 	declarations: [],

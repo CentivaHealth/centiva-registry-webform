@@ -4,6 +4,7 @@ import { AuthWrapperModule } from '@core/libs/auth-wrapper/auth-wrapper.module';
 import { QrBuilderWrapperModule } from '@core/libs/qr-builder-wrapper/qr-builder-wrapper.module';
 import { DatePickerWrapperModule } from '@core/libs/date-picker-wrapper/date-picker-wrapper.module';
 import { DateTimePipesWrapperModule } from '@core/libs/date-time-pipes-wrapper/date-time-pipes-wrapper.module';
+import { MessageHandlerWrapperModule } from '@core/libs/message-handler-wrapper/message-handler-wrapper.module';
 
 @NgModule({
 	declarations: [],
@@ -12,7 +13,8 @@ import { DateTimePipesWrapperModule } from '@core/libs/date-time-pipes-wrapper/d
 		AuthWrapperModule,
 		QrBuilderWrapperModule,
 		DatePickerWrapperModule,
-		DateTimePipesWrapperModule
+		DateTimePipesWrapperModule,
+		MessageHandlerWrapperModule
 	],
 	exports: [
 		QrBuilderWrapperModule,
