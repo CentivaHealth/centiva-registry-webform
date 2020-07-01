@@ -41,7 +41,6 @@ export const MY_MOMENT_FORMATS = {
 	]
 })
 export class FormPageComponent implements OnInit {
-	@ViewChild(ToastContainerDirective, { static: true })
 	version: string;
 	form: FormGroup;
 	qrDataString: string;
