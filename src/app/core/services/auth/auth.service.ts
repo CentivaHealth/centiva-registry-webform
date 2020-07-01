@@ -6,30 +6,41 @@ import {
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { User } from '@core/models/models';
+import { BehaviorSubject } from 'rxjs';
+import { MessageHandlerService } from '@core/services/message-handler/message-handler.service';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class AuthService {
 	userData: any; // Save logged in user data
+	userIsLoggedIn = new BehaviorSubject<boolean>(null);
 
 	constructor(
 		public afs: AngularFirestore, // Inject Firestore service
 		public afAuth: AngularFireAuth, // Inject Firebase auth service
-		public router: Router
+		public router: Router,
+		private messageHandlerService: MessageHandlerService
 	) {
-		/* Saving user data in localstorage when 
+		/* Saving user data in localstorage when
     logged in and setting up null when logged out */
 		this.afAuth.authState.subscribe((user): void => {
 			if (user) {
 				this.userData = user;
 				localStorage.setItem('user', JSON.stringify(this.userData));
+				this.userIsLoggedIn.next(true);
 				JSON.parse(localStorage.getItem('user'));
 			} else {
 				localStorage.setItem('user', null);
 				JSON.parse(localStorage.getItem('user'));
+				this.userIsLoggedIn.next(null);
 			}
 		});
+	}
+
+	get isLoggedIn(): boolean {
+		const user = JSON.parse(localStorage.getItem('user'));
+		return user !== null;
 	}
 
 	// Sign in with email/password
@@ -37,16 +48,15 @@ export class AuthService {
 		return this.afAuth
 			.signInWithEmailAndPassword(email, password)
 			.then((result): void => {
-				this.router.navigate(['/form']);
 				this.setUserData(result.user);
 			})
 			.catch((error): void => {
-				window.alert(error.message);
+				this.messageHandlerService.errorMessage(error.message);
 			});
 	}
 
-	/* Setting up user data when sign in with username/password, 
-  sign up with username/password and sign in with social auth  
+	/* Setting up user data when sign in with username/password,
+  sign up with username/password and sign in with social auth
   provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
 	setUserData(user) {
 		const userRef: AngularFirestoreDocument<any> = this.afs.doc(

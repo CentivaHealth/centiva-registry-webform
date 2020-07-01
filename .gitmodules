@@ -1,0 +1,3 @@
+[submodule "src/proto/api"]
+	path = src/proto/api
+	url = git@bitbucket.org:hitfoundation/centiva-registry-data-schema.git

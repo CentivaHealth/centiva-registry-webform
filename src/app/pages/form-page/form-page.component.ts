@@ -10,6 +10,10 @@ import {
 } from 'ng-pick-datetime';
 import { MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
 import * as moment from 'moment';
+import { InfoHashService } from '@core/services/info-hash/info-hash.service';
+import { MessageHandlerService } from '@core/services/message-handler/message-handler.service';
+import { health } from '../../../models/proto/provider-add-info-hash';
+import IAddInfoHashRequest = health.centiva.registry.model.IAddInfoHashRequest;
 
 // Date picker formats
 export const MY_MOMENT_FORMATS = {
@@ -36,18 +40,22 @@ export const MY_MOMENT_FORMATS = {
 	]
 })
 export class FormPageComponent implements OnInit {
-	qrVersion = 12;
+	version: string;
 	form: FormGroup;
 	qrDataString: string;
+	addInfoHashData: IAddInfoHashRequest;
 	@ViewChild('htmlData') htmlData: ElementRef;
 
 	constructor(
 		private authService: AuthService,
-		private validationService: ValidationService
+		private validationService: ValidationService,
+		private infoHashService: InfoHashService,
+		private messageHandlerService: MessageHandlerService
 	) {}
 
 	ngOnInit(): void {
 		this.qrDataString = 'default';
+		this.version = '1';
 		this.createForm();
 	}
 
@@ -66,16 +74,32 @@ export class FormPageComponent implements OnInit {
 				...this.validationService.setValidators('date')
 			]),
 			testProvider: new FormControl('', [
-				...this.validationService.setValidators('text')
+				...this.validationService.setValidators('select')
 			]),
 			testResult: new FormControl('', [
-				...this.validationService.setValidators('text')
+				...this.validationService.setValidators('select')
 			])
 		});
 	}
 
 	signOut(): void {
 		this.authService.signOut();
+	}
+
+	prepareAddInfoHashData(): void {
+		this.addInfoHashData = null;
+		this.addInfoHashData = {
+			infoHash: this.infoHashService.hashDataString(this.form.value),
+			labId: null,
+			labName: this.form.value.testProvider || null,
+			version: this.version || null,
+			testDate: this.validateDate(this.form.value.testDate),
+			testResult: this.form.value.testResult || null
+		};
+	}
+
+	validateDate(dateString: string): string | null {
+		return dateString === 'Invalid date' ? null : dateString;
 	}
 
 	onSubmit(): void {
@@ -89,13 +113,29 @@ export class FormPageComponent implements OnInit {
 			'YYYY-MM-DD'
 		);
 
-		// creating QR-code
-		this.form.value.v = this.qrVersion;
-		this.qrDataString = JSON.stringify(this.form.value);
+		this.prepareAddInfoHashData();
+		this.infoHashService.sendInfoHash(this.addInfoHashData).subscribe(
+			(): void => this.onSendInfoHashSuccess(),
+			(error): void => this.onSendInfoHashError(error)
+		);
 
-		setTimeout((): void => {
-			this.downloadPDF();
-		}, 0);
+		// creating QR-code
+		this.prepateQRData();
+	}
+
+	prepateQRData(): void {
+		this.form.value.v = this.version; // adding version to QR-code
+		this.qrDataString = JSON.stringify(this.form.value);
+	}
+
+	onSendInfoHashSuccess(): void {
+		this.messageHandlerService.successMessage('info hash is saved');
+		this.downloadPDF();
+	}
+
+	onSendInfoHashError(error): void {
+		const errorMessage = this.messageHandlerService.decodeMessage(error);
+		this.messageHandlerService.errorMessage(errorMessage);
 	}
 
 	formatDate(formFieldValue: Date, dateFormat: string): string {
