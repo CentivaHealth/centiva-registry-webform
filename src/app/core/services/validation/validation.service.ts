@@ -22,10 +22,17 @@ export class ValidationService {
 			validators.push(Validators.email);
 			validators.push(Validators.minLength(5));
 			validators.push(Validators.pattern(emailPattern));
+			validators.push(Validators.required);
 		}
 		if (type === 'date') {
 			validators.push(Validators.minLength(5));
+			validators.push(Validators.required);
 		}
+
+		if (type === 'select') {
+			validators.push(Validators.required);
+		}
+
 		return validators;
 	}
 

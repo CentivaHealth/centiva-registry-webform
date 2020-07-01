@@ -42,7 +42,7 @@ export const MY_MOMENT_FORMATS = {
 })
 export class FormPageComponent implements OnInit {
 	@ViewChild(ToastContainerDirective, { static: true })
-	version = '1';
+	version: string;
 	form: FormGroup;
 	qrDataString: string;
 	addInfoHashData: IAddInfoHashRequest;
@@ -57,6 +57,7 @@ export class FormPageComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.qrDataString = 'default';
+		this.version = '1';
 		this.createForm();
 	}
 
@@ -75,10 +76,10 @@ export class FormPageComponent implements OnInit {
 				...this.validationService.setValidators('date')
 			]),
 			testProvider: new FormControl('', [
-				...this.validationService.setValidators('text')
+				...this.validationService.setValidators('select')
 			]),
 			testResult: new FormControl('', [
-				...this.validationService.setValidators('text')
+				...this.validationService.setValidators('select')
 			])
 		});
 	}
@@ -87,8 +88,7 @@ export class FormPageComponent implements OnInit {
 		this.authService.signOut();
 	}
 
-	prepareAddInfoHashData() {
-		this.form.value.v = this.version;
+	prepareAddInfoHashData(): void {
 		this.addInfoHashData = null;
 		this.addInfoHashData = {
 			infoHash: this.infoHashService.hashDataString(this.form.value),
@@ -98,7 +98,6 @@ export class FormPageComponent implements OnInit {
 			testDate: this.validateDate(this.form.value.testDate),
 			testResult: this.form.value.testResult || null
 		};
-		console.log(this.addInfoHashData);
 	}
 
 	validateDate(dateString: string): string | null {
@@ -116,17 +115,18 @@ export class FormPageComponent implements OnInit {
 			'YYYY-MM-DD'
 		);
 
-		this.form.value.testResult = this.formatTestResult(
-			this.form.value.testResult
-		);
-
 		this.prepareAddInfoHashData();
 		this.infoHashService.sendInfoHash(this.addInfoHashData).subscribe(
-			() => this.onSendInfoHashSuccess(),
-			(error) => this.onSendInfoHashError(error)
+			(): void => this.onSendInfoHashSuccess(),
+			(error): void => this.onSendInfoHashError(error)
 		);
 
 		// creating QR-code
+		this.prepateQRData();
+	}
+
+	prepateQRData(): void {
+		this.form.value.v = this.version; // adding version to QR-code
 		this.qrDataString = JSON.stringify(this.form.value);
 	}
 
@@ -138,15 +138,6 @@ export class FormPageComponent implements OnInit {
 	onSendInfoHashError(error): void {
 		const errorMessage = this.messageHandlerService.decodeMessage(error);
 		this.messageHandlerService.errorMessage(errorMessage);
-	}
-
-	formatTestResult(testResult: string) {
-		if (testResult === 'positive') {
-			return '1';
-		}
-		if (testResult === 'negative') {
-			return '0';
-		}
 	}
 
 	formatDate(formFieldValue: Date, dateFormat: string): string {

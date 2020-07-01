@@ -69,14 +69,14 @@
 			<span class="mb-10">Test Result</span>
 			<select class="select-text-large" formControlName="testResult">
 				<option value=""></option>
-				<option value="positive">positive</option>
-				<option value="negative">negative</option>
+				<option value="1">positive</option>
+				<option value="0">negative</option>
 			</select>
 			<div class="select-arrow">></div>
 		</label>
 
-<!--    [disabled]="!form.valid"-->
 		<button
+      [disabled]="!form.valid"
 			type="submit"
 			class="button-primary mt-40"
 			[ngClass]="{ 'button-primary-disabled': !form.valid }"
