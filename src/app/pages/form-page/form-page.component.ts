@@ -12,7 +12,6 @@ import { MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment
 import * as moment from 'moment';
 import { InfoHashService } from '@core/services/info-hash/info-hash.service';
 import { MessageHandlerService } from '@core/services/message-handler/message-handler.service';
-import { ToastContainerDirective } from 'ngx-toastr';
 import { health } from '../../../models/proto/provider-add-info-hash';
 import IAddInfoHashRequest = health.centiva.registry.model.IAddInfoHashRequest;
 
