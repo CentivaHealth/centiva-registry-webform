@@ -1,5 +1,5 @@
 import * as $protobuf from "protobufjs";
-import Long = require('long');
+import * as Long from 'long';
 export namespace health {
 
     namespace centiva {
@@ -12,7 +12,9 @@ export namespace health {
                     infoHash?: (Uint8Array|null);
                     labId?: (string|null);
                     labName?: (string|null);
-                    creationDate?: (google.protobuf.ITimestamp|null);
+                    version?: (string|null);
+                    testDate?: (string|null);
+                    testResult?: (string|null);
                 }
 
                 class AddInfoHashRequest implements IAddInfoHashRequest {
@@ -20,7 +22,9 @@ export namespace health {
                     public infoHash: Uint8Array;
                     public labId: string;
                     public labName: string;
-                    public creationDate?: (google.protobuf.ITimestamp|null);
+                    public version: string;
+                    public testDate: string;
+                    public testResult: string;
                     public static create(properties?: health.centiva.registry.model.IAddInfoHashRequest): health.centiva.registry.model.AddInfoHashRequest;
                     public static encode(message: health.centiva.registry.model.IAddInfoHashRequest, writer?: $protobuf.Writer): $protobuf.Writer;
                     public static encodeDelimited(message: health.centiva.registry.model.IAddInfoHashRequest, writer?: $protobuf.Writer): $protobuf.Writer;

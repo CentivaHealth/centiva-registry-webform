@@ -61,7 +61,9 @@
                          * @property {Uint8Array|null} [infoHash] AddInfoHashRequest infoHash
                          * @property {string|null} [labId] AddInfoHashRequest labId
                          * @property {string|null} [labName] AddInfoHashRequest labName
-                         * @property {google.protobuf.ITimestamp|null} [creationDate] AddInfoHashRequest creationDate
+                         * @property {string|null} [version] AddInfoHashRequest version
+                         * @property {string|null} [testDate] AddInfoHashRequest testDate
+                         * @property {string|null} [testResult] AddInfoHashRequest testResult
                          */
     
                         /**
@@ -104,12 +106,28 @@
                         AddInfoHashRequest.prototype.labName = "";
     
                         /**
-                         * AddInfoHashRequest creationDate.
-                         * @member {google.protobuf.ITimestamp|null|undefined} creationDate
+                         * AddInfoHashRequest version.
+                         * @member {string} version
                          * @memberof health.centiva.registry.model.AddInfoHashRequest
                          * @instance
                          */
-                        AddInfoHashRequest.prototype.creationDate = null;
+                        AddInfoHashRequest.prototype.version = "";
+    
+                        /**
+                         * AddInfoHashRequest testDate.
+                         * @member {string} testDate
+                         * @memberof health.centiva.registry.model.AddInfoHashRequest
+                         * @instance
+                         */
+                        AddInfoHashRequest.prototype.testDate = "";
+    
+                        /**
+                         * AddInfoHashRequest testResult.
+                         * @member {string} testResult
+                         * @memberof health.centiva.registry.model.AddInfoHashRequest
+                         * @instance
+                         */
+                        AddInfoHashRequest.prototype.testResult = "";
     
                         /**
                          * Creates a new AddInfoHashRequest instance using the specified properties.
@@ -141,8 +159,12 @@
                                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.labId);
                             if (message.labName != null && Object.hasOwnProperty.call(message, "labName"))
                                 writer.uint32(/* id 3, wireType 2 =*/26).string(message.labName);
-                            if (message.creationDate != null && Object.hasOwnProperty.call(message, "creationDate"))
-                                $root.google.protobuf.Timestamp.encode(message.creationDate, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
+                                writer.uint32(/* id 4, wireType 2 =*/34).string(message.version);
+                            if (message.testDate != null && Object.hasOwnProperty.call(message, "testDate"))
+                                writer.uint32(/* id 5, wireType 2 =*/42).string(message.testDate);
+                            if (message.testResult != null && Object.hasOwnProperty.call(message, "testResult"))
+                                writer.uint32(/* id 6, wireType 2 =*/50).string(message.testResult);
                             return writer;
                         };
     
@@ -187,7 +209,13 @@
                                     message.labName = reader.string();
                                     break;
                                 case 4:
-                                    message.creationDate = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                                    message.version = reader.string();
+                                    break;
+                                case 5:
+                                    message.testDate = reader.string();
+                                    break;
+                                case 6:
+                                    message.testResult = reader.string();
                                     break;
                                 default:
                                     reader.skipType(tag & 7);
@@ -233,11 +261,15 @@
                             if (message.labName != null && message.hasOwnProperty("labName"))
                                 if (!$util.isString(message.labName))
                                     return "labName: string expected";
-                            if (message.creationDate != null && message.hasOwnProperty("creationDate")) {
-                                var error = $root.google.protobuf.Timestamp.verify(message.creationDate);
-                                if (error)
-                                    return "creationDate." + error;
-                            }
+                            if (message.version != null && message.hasOwnProperty("version"))
+                                if (!$util.isString(message.version))
+                                    return "version: string expected";
+                            if (message.testDate != null && message.hasOwnProperty("testDate"))
+                                if (!$util.isString(message.testDate))
+                                    return "testDate: string expected";
+                            if (message.testResult != null && message.hasOwnProperty("testResult"))
+                                if (!$util.isString(message.testResult))
+                                    return "testResult: string expected";
                             return null;
                         };
     
@@ -262,11 +294,12 @@
                                 message.labId = String(object.labId);
                             if (object.labName != null)
                                 message.labName = String(object.labName);
-                            if (object.creationDate != null) {
-                                if (typeof object.creationDate !== "object")
-                                    throw TypeError(".health.centiva.registry.model.AddInfoHashRequest.creationDate: object expected");
-                                message.creationDate = $root.google.protobuf.Timestamp.fromObject(object.creationDate);
-                            }
+                            if (object.version != null)
+                                message.version = String(object.version);
+                            if (object.testDate != null)
+                                message.testDate = String(object.testDate);
+                            if (object.testResult != null)
+                                message.testResult = String(object.testResult);
                             return message;
                         };
     
@@ -293,7 +326,9 @@
                                 }
                                 object.labId = "";
                                 object.labName = "";
-                                object.creationDate = null;
+                                object.version = "";
+                                object.testDate = "";
+                                object.testResult = "";
                             }
                             if (message.infoHash != null && message.hasOwnProperty("infoHash"))
                                 object.infoHash = options.bytes === String ? $util.base64.encode(message.infoHash, 0, message.infoHash.length) : options.bytes === Array ? Array.prototype.slice.call(message.infoHash) : message.infoHash;
@@ -301,8 +336,12 @@
                                 object.labId = message.labId;
                             if (message.labName != null && message.hasOwnProperty("labName"))
                                 object.labName = message.labName;
-                            if (message.creationDate != null && message.hasOwnProperty("creationDate"))
-                                object.creationDate = $root.google.protobuf.Timestamp.toObject(message.creationDate, options);
+                            if (message.version != null && message.hasOwnProperty("version"))
+                                object.version = message.version;
+                            if (message.testDate != null && message.hasOwnProperty("testDate"))
+                                object.testDate = message.testDate;
+                            if (message.testResult != null && message.hasOwnProperty("testResult"))
+                                object.testResult = message.testResult;
                             return object;
                         };
     

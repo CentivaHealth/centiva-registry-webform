@@ -4,6 +4,7 @@ import { FormDataModel } from '@shared/type-models/form.model';
 import SHA3 from 'sha3';
 import { health } from '../../../../models/proto/provider-add-info-hash';
 import AddInfoHashRequest = health.centiva.registry.model.AddInfoHashRequest;
+import IAddInfoHashRequest = health.centiva.registry.model.IAddInfoHashRequest;
 
 @Injectable({
 	providedIn: 'root'
@@ -13,36 +14,35 @@ export class InfoHashService {
 	url =
 		'https://europe-west6-registry-test-280713.cloudfunctions.net/provider-add-info-hash';
 
-	sendInfoHash(infoHash) {
-		const byteTest = new Uint8Array(10);
+	sendInfoHash(data: IAddInfoHashRequest) {
+		const message = AddInfoHashRequest.create(data);
+		const encodedRequest = AddInfoHashRequest.encode(message).finish();
 
-		const testData = {
-			infoHash: byteTest,
-			labId: 'lab id',
-			labName: 'lab name',
-			creationDate: {}
-		};
-		let message = AddInfoHashRequest.create(testData);
-		let buffer = AddInfoHashRequest.encode(message).finish();
+		const offset = encodedRequest.byteOffset;
+		const length = encodedRequest.byteLength;
+		const requestArrayBuffer = encodedRequest.buffer.slice(
+			offset,
+			offset + length
+		);
 
 		const user = JSON.parse(localStorage.getItem('user'));
 		const accessToken = user.stsTokenManager.accessToken;
 
 		const headers = new HttpHeaders({
 			Authorization: accessToken,
-			Accept: 'application/x-protobuf',
-			'Content-type': 'application/x-protobuf'
+			'Content-Type': 'application/x-protobuf',
+			Accept: 'application/x-protobuf'
 		});
-		this.http
-			.post(this.url, buffer, { headers, responseType: 'arraybuffer' })
-			.subscribe(console.log);
+		return this.http.post(this.url, requestArrayBuffer, {
+			headers,
+			responseType: 'arraybuffer'
+		});
 	}
 
-	hashDataString(formData: FormDataModel): string {
+	hashDataString(formData: FormDataModel) {
 		const hash = new SHA3(512);
 		hash.update(this.formatDataString(formData));
-		const encoded = hash.digest('hex');
-		console.log(encoded);
+		const encoded = hash.digest();
 		return encoded;
 	}
 

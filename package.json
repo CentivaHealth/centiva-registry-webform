@@ -3,13 +3,13 @@
 	"version": "0.0.0",
 	"scripts": {
 		"ng": "ng",
-		"start": "ng serve",
+		"start": "ng serve --port 8080",
 		"build": "ng build",
 		"test": "ng test",
 		"lint": "ng lint",
 		"e2e": "ng e2e",
-		"pbts": "pbjs -t static-module src/proto/api/provider-add-info-hash.proto -o src/models/proto/provider-add-info-hash.js && pbts --no-comments src/models/proto/provider-add-info-hash.js -o src/models/proto/provider-add-info-hash.d.ts"
-  },
+		"pbts": "pbjs -t static-module src/proto/api/provider_add_info_hash.proto -o src/models/proto/provider-add-info-hash.js && pbts --no-comments src/models/proto/provider-add-info-hash.js -o src/models/proto/provider-add-info-hash.d.ts"
+	},
 	"private": true,
 	"dependencies": {
 		"@angular/animations": "^9.1.11",

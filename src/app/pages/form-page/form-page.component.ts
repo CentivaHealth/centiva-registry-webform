@@ -11,6 +11,8 @@ import {
 import { MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
 import * as moment from 'moment';
 import { InfoHashService } from '@core/services/info-hash/info-hash.service';
+import { health } from '../../../models/proto/provider-add-info-hash';
+import IAddInfoHashRequest = health.centiva.registry.model.IAddInfoHashRequest;
 
 // Date picker formats
 export const MY_MOMENT_FORMATS = {
@@ -37,9 +39,10 @@ export const MY_MOMENT_FORMATS = {
 	]
 })
 export class FormPageComponent implements OnInit {
-	version = 1;
+	version = '1';
 	form: FormGroup;
 	qrDataString: string;
+	addInfoHashData: IAddInfoHashRequest;
 	@ViewChild('htmlData') htmlData: ElementRef;
 
 	constructor(
@@ -80,10 +83,18 @@ export class FormPageComponent implements OnInit {
 		this.authService.signOut();
 	}
 
+	prepareAddInfoHashData() {
+		this.addInfoHashData = {
+			infoHash: this.infoHashService.hashDataString(this.form.value),
+			labId: null,
+			labName: this.form.value.testProvider,
+			version: this.version,
+			testDate: this.form.value.testDate,
+			testResult: this.form.value.testResult
+		};
+	}
+
 	onSubmit(): void {
-		this.infoHashService.sendInfoHash(
-			this.infoHashService.hashDataString(this.form.value)
-		);
 		// formatting date fields
 		this.form.value.dateOfBirth = this.formatDate(
 			this.form.value.dateOfBirth,
@@ -94,6 +105,16 @@ export class FormPageComponent implements OnInit {
 			'YYYY-MM-DD'
 		);
 
+		this.form.value.testResult = this.formatTestResult(
+			this.form.value.testResult
+		);
+
+		this.prepareAddInfoHashData();
+		this.infoHashService.sendInfoHash(this.addInfoHashData).subscribe(
+			() => this.onSendInfoHashSuccess(),
+			(error) => this.onSendInfoHashError(error)
+		);
+
 		// creating QR-code
 		this.form.value.v = this.version;
 		this.qrDataString = JSON.stringify(this.form.value);
@@ -101,6 +122,19 @@ export class FormPageComponent implements OnInit {
 		setTimeout((): void => {
 			this.downloadPDF();
 		}, 0);
+	}
+
+	onSendInfoHashSuccess(): void {}
+
+	onSendInfoHashError(error): void {}
+
+	formatTestResult(testResult: string) {
+		if (testResult === 'positive') {
+			return '1';
+		}
+		if (testResult === 'negative') {
+			return '0';
+		}
 	}
 
 	formatDate(formFieldValue: Date, dateFormat: string): string {
