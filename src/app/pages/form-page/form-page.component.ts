@@ -68,7 +68,7 @@ export class FormPageComponent implements OnInit {
 			name: new FormControl('', [
 				...this.validationService.setValidators('text')
 			]),
-			surName: new FormControl('', [
+			surname: new FormControl('', [
 				...this.validationService.setValidators('text')
 			]),
 			dateOfBirth: new FormControl('', [
@@ -124,6 +124,7 @@ export class FormPageComponent implements OnInit {
 
 		// creating QR-code
 		this.prepateQRData();
+		setTimeout(() => this.downloadPDF(), 0);
 	}
 
 	onSendInfoHashSuccess(): void {
@@ -149,7 +150,7 @@ export class FormPageComponent implements OnInit {
 		this.form.value.v = this.version; // adding version to QR-code
 		const qrData = {
 			name: this.form.value.name,
-			surName: this.form.value.surName,
+			surname: this.form.value.surname,
 			dateOfBirth: this.form.value.dateOfBirth,
 			testDate: this.form.value.testDate,
 			testLabName: this.testLabName,
@@ -178,7 +179,7 @@ export class FormPageComponent implements OnInit {
 		const imageData = this.getBase64Image(qrcode.firstChild.firstChild);
 		doc.addImage(imageData, 'JPG', 136, 450);
 		doc.save(
-			`${this.form.value.name}-${this.form.value.surName}-test-result.pdf`
+			`${this.form.value.name}-${this.form.value.surname}-test-result.pdf`
 		);
 	}
 

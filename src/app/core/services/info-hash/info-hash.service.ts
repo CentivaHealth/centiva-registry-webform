@@ -56,8 +56,8 @@ export class InfoHashService {
 
 	formatDataString(data: FormDataModel): string {
 		const name = data.name.trim();
-		const surName = data.surName.trim();
-		const dataString = `name:${name};surname:${surName};dateOfBirth:${data.dateOfBirth};testDate:${data.testDate};testProvider:${data.testProvider};testResult:${data.testResult};labName:MedLab;`;
+		const surname = data.surname.trim();
+		const dataString = `name:${name};surname:${surname};dateOfBirth:${data.dateOfBirth};testDate:${data.testDate};testProvider:${data.testProvider};testResult:${data.testResult};labName:MedLab;`;
 		return dataString;
 	}
 }

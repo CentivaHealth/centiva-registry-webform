@@ -1,6 +1,6 @@
 export interface FormDataModel {
 	name: string;
-	surName: string;
+	surname: string;
 	dateOfBirth: string;
 	testDate: string;
 	testProvider: string;
