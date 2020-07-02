@@ -150,7 +150,7 @@ export class FormPageComponent implements OnInit {
 			surName: this.form.value.surName,
 			dateOfBirth: this.form.value.dateOfBirth,
 			testDate: this.form.value.testDate,
-			testLab: this.testLabName,
+			testLabName: this.testLabName,
 			testProvider: this.form.value.testProvider,
 			testResult: this.form.value.testResult,
 			v: this.version
