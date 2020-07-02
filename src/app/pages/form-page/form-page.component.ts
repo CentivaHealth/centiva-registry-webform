@@ -46,6 +46,7 @@ export class FormPageComponent implements OnInit {
 	qrDataString: string;
 	addInfoHashData: IAddInfoHashRequest;
 	@ViewChild('htmlData') htmlData: ElementRef;
+	maxDate: Date;
 
 	constructor(
 		private authService: AuthService,
@@ -55,6 +56,7 @@ export class FormPageComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
+		this.maxDate = new Date();
 		this.qrDataString = 'default';
 		this.version = '1';
 		this.testLabName = 'MedLab';

@@ -25,6 +25,7 @@
 		<label class="input-box">
 			<span class="mb-10">Date of birth</span>
 			<input
+        [max]="maxDate"
 				[owlDateTime]="dateOfBirth"
 				[owlDateTimeTrigger]="dateOfBirth"
 				class="input-text-large"
@@ -41,6 +42,7 @@
 		<label class="input-box">
 			<span class="mb-10">Test Date</span>
 			<input
+        [max]="maxDate"
 				[owlDateTime]="testDate"
 				[owlDateTimeTrigger]="testDate"
 				class="input-text-large"
