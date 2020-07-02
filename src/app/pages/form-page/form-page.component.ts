@@ -153,7 +153,7 @@ export class FormPageComponent implements OnInit {
 			testDate: this.form.value.testDate,
 			testLab: this.testLabName,
 			testProvider: this.form.value.testProvider,
-			testResult: this.form.value.testResult,
+			testResult: this.form.value.testResult === '1' ? 'positive' : 'negative',
 			v: this.version
 		};
 		this.qrDataString = JSON.stringify(qrData);

@@ -116,7 +116,7 @@
       <br />
       <h3>Test Provider: {{ form.value.testProvider }}</h3>
 			<br />
-			<h3>Test Result: {{ form.value.testResult }}</h3>
+			<h3>Test Result: {{ form.value.testResult === '1' ? 'positive' : 'negative' }}</h3>
 			<br />
 			<h3>v:{{ version }}</h3>
 		</div>
