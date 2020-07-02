@@ -122,7 +122,6 @@ export class FormPageComponent implements OnInit {
 
 		// creating QR-code
 		this.prepateQRData();
-		setTimeout(() => this.downloadPDF(), 0);
 	}
 
 	onSendInfoHashSuccess(): void {
