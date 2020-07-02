@@ -41,7 +41,7 @@ export const MY_MOMENT_FORMATS = {
 })
 export class FormPageComponent implements OnInit {
 	version: string;
-	labName: string;
+	testLabName: string;
 	form: FormGroup;
 	qrDataString: string;
 	addInfoHashData: IAddInfoHashRequest;
@@ -57,7 +57,7 @@ export class FormPageComponent implements OnInit {
 	ngOnInit(): void {
 		this.qrDataString = 'default';
 		this.version = '1';
-		this.labName = 'MedLab';
+		this.testLabName = 'MedLab';
 		this.createForm();
 	}
 
@@ -122,6 +122,7 @@ export class FormPageComponent implements OnInit {
 
 		// creating QR-code
 		this.prepateQRData();
+		setTimeout(() => this.downloadPDF(), 0);
 	}
 
 	onSendInfoHashSuccess(): void {
@@ -143,9 +144,19 @@ export class FormPageComponent implements OnInit {
 	}
 
 	prepateQRData(): void {
-		this.form.value.labName = this.labName;
+		this.form.value.testLabName = this.testLabName;
 		this.form.value.v = this.version; // adding version to QR-code
-		this.qrDataString = JSON.stringify(this.form.value);
+		const qrData = {
+			name: this.form.value.name,
+			surName: this.form.value.surName,
+			dateOfBirth: this.form.value.dateOfBirth,
+			testDate: this.form.value.testDate,
+			testLab: this.testLabName,
+			testProvider: this.form.value.testProvider,
+			testResult: this.form.value.testResult,
+			v: this.version
+		};
+		this.qrDataString = JSON.stringify(qrData);
 	}
 
 	formatDate(formFieldValue: Date, dateFormat: string): string {
@@ -164,7 +175,7 @@ export class FormPageComponent implements OnInit {
 
 		// QR code img
 		const imageData = this.getBase64Image(qrcode.firstChild.firstChild);
-		doc.addImage(imageData, 'JPG', 136, 400);
+		doc.addImage(imageData, 'JPG', 136, 450);
 		doc.save(
 			`${this.form.value.name}-${this.form.value.surName}-test-result.pdf`
 		);
