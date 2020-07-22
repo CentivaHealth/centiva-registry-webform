@@ -4,8 +4,8 @@ import { FormDataModel } from '@shared/type-models/form.model';
 import { Observable } from 'rxjs';
 import SHA3 from 'sha3';
 import {
-	AddInfoHashRequestData,
-	AddInfoHashRequestModel
+  AddInfoHashRequestData, AddInfoHashRequestModel,
+
 } from '@models/provider-add-info-hash.model';
 import { environment } from '@environments/environment';
 
@@ -50,7 +50,7 @@ export class InfoHashService {
 		return requestArrayBuffer;
 	}
 
-	hashDataString(formData: FormDataModel) {
+	hashDataString(formData: FormDataModel): string {
 		const hash = new SHA3(512);
 		hash.update(this.formatDataString(formData));
 		const encoded = hash.digest();
