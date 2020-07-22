@@ -1,10 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IConfig, NgxMaskModule } from 'ngx-mask';
-
-const maskConfig: Partial<IConfig> = {
-	validation: false
-};
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
 	declarations: [],
