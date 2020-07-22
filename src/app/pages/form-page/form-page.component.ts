@@ -89,7 +89,27 @@ export class FormPageComponent implements OnInit {
 		this.authService.signOut();
 	}
 
+	onSubmit(): void {
+		this.prepareAddInfoHashData();
+		this.infoHashService.sendInfoHash(this.addInfoHashData).subscribe(
+			(): void => this.onSendInfoHashSuccess(),
+			(error): void => this.onSendInfoHashError(error)
+		);
+
+		// creating QR-code
+		this.prepateQRData();
+	}
+
 	prepareAddInfoHashData(): void {
+		// formatting date fields
+		this.form.value.dateOfBirth = this.formatDate(
+			this.form.value.dateOfBirth,
+			'YYYY-MM-DD'
+		);
+		this.form.value.testDate = this.formatDate(
+			this.form.value.testDate,
+			'YYYY-MM-DD'
+		);
 		this.addInfoHashData = null;
 		this.addInfoHashData = {
 			infoHash: this.infoHashService.hashDataString(this.form.value),
@@ -102,27 +122,6 @@ export class FormPageComponent implements OnInit {
 
 	validateDate(dateString: string): string | null {
 		return dateString === 'Invalid date' ? null : dateString;
-	}
-
-	onSubmit(): void {
-		// formatting date fields
-		this.form.value.dateOfBirth = this.formatDate(
-			this.form.value.dateOfBirth,
-			'YYYY-MM-DD'
-		);
-		this.form.value.testDate = this.formatDate(
-			this.form.value.testDate,
-			'YYYY-MM-DD'
-		);
-
-		this.prepareAddInfoHashData();
-		this.infoHashService.sendInfoHash(this.addInfoHashData).subscribe(
-			(): void => this.onSendInfoHashSuccess(),
-			(error): void => this.onSendInfoHashError(error)
-		);
-
-		// creating QR-code
-		this.prepateQRData();
 	}
 
 	onSendInfoHashSuccess(): void {

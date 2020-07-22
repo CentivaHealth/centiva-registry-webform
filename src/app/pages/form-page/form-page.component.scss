@@ -26,3 +26,18 @@
   flex-direction: column;
   align-items: flex-start;
 }
+
+//inputs validation
+.ng-touched.ng-invalid-required {
+  border-color: red;
+}
+/* Show red border when stuff has been typed in, but its invalid */
+.ng-dirty.ng-invalid {
+  border-color: red;
+}
+.ng-touched.ng-invalid{
+  border-color: red;
+}
+.ng-submitted input.ng-invalid{
+  border-color: red;
+}

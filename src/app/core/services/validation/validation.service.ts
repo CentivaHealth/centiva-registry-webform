@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, ValidatorFn, Validators } from '@angular/forms';
+import {
+	AbstractControl,
+	ValidatorFn,
+	Validators
+} from '@angular/forms';
 import * as moment from 'moment';
 
 @Injectable({
@@ -26,8 +30,9 @@ export class ValidationService {
 			validators.push(Validators.required);
 		}
 		if (type === 'date') {
-			validators.push(Validators.minLength(5));
+			validators.push(Validators.minLength(8));
 			validators.push(this.checkMaxDate());
+			validators.push(this.checkDate());
 			validators.push(Validators.required);
 		}
 
@@ -46,6 +51,18 @@ export class ValidationService {
 				return Number(control.value) <= Number(todayDate)
 					? null
 					: { date: 'Date cannot be greater than today' };
+			}
+			return null;
+		};
+	}
+
+	private checkDate(): ValidatorFn {
+		return (control: AbstractControl): { [key: string]: any } => {
+			if (control.value) {
+				const dateFormat = 'YYYYMMDD';
+				return moment(control.value).format(dateFormat) !== 'Invalid date'
+					? null
+					: { date: 'Invalid date' };
 			}
 			return null;
 		};
