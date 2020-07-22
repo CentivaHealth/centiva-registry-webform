@@ -10,8 +10,7 @@
 		"e2e": "ng e2e",
 		"create-js-ts-from-proto-add-info-hash": "pbjs -t static-module src/proto/api/provider_add_info_hash.proto -o src/models/proto/provider-add-info-hash.js && pbts --no-comments src/models/proto/provider-add-info-hash.js -o src/models/proto/provider-add-info-hash.d.ts",
 		"create-js-ts-from-proto-error-response": "pbjs -t static-module src/proto/api/error_response.proto -o src/models/proto/error-response.js && pbts --no-comments src/models/proto/error-response.js -o src/models/proto/error-response.d.ts",
-		"postinstall": "npm run create-js-ts-from-proto-add-info-hash && npm run create-js-ts-from-proto-error-response",
-		"genproto-make-file": "cd  src/proto/api; protoc --plugin=\"protoc-gen-ts=../../../node_modules/.bin/protoc-gen-ts\" --js_out=\"import_style=commonjs,binary:../../models/proto\" --ts_out=\"service=false:../../models/proto\" provider_add_info_hash.proto error_response.proto;"
+		"postinstall": "cd  src/proto/api; protoc --plugin=\"protoc-gen-ts=../../../node_modules/.bin/protoc-gen-ts\" --js_out=\"import_style=commonjs,binary:../../models/proto\" --ts_out=\"service=false:../../models/proto\" provider_add_info_hash.proto error_response.proto;"
 	},
 	"private": true,
 	"dependencies": {
