@@ -4,7 +4,7 @@ import {
 	TOASTR_CONFIG_INLINE,
 	TOASTR_CONFIG_LOCAL
 } from '@core/services/message-handler/toastr.config';
-import {ErrorResponse} from '@generated//error_response_pb';
+import {ErrorResponse} from '@generated/error_response_pb';
 
 @Injectable({
 	providedIn: 'root'

@@ -20,7 +20,8 @@
       "@shared/*": ["src/app/shared/*"],
       "@pages/*": ["src/app/pages/*"],
       "@models/*": ["src/models/*"],
-      "@generated/*": ["src/models/proto*"]
+      "@environments/*": ["src/environments/*"],
+      "@generated/*": ["src/models/proto/*"]
     }
   },
   "angularCompilerOptions": {

@@ -7,7 +7,7 @@ import {
 	AddInfoHashRequestData,
 	AddInfoHashRequestModel
 } from '@models/provider-add-info-hash.model';
-import { environment } from '../../../../environments/environment';
+import { environment } from '@environments/environment';
 
 @Injectable({
 	providedIn: 'root'
@@ -18,7 +18,6 @@ export class InfoHashService {
 	constructor(private http: HttpClient) {}
 
 	sendInfoHash(data: AddInfoHashRequestData): Observable<ArrayBuffer> {
-		// console.log(data);
 		const headers = new HttpHeaders({
 			Authorization: this.getAccessToken(),
 			'Content-Type': 'application/x-protobuf',
@@ -37,7 +36,6 @@ export class InfoHashService {
 	}
 
 	prepareRequestArrayBuffer(data: AddInfoHashRequestData) {
-		// console.log('prepareRequestArrayBuffer ', data);
 		const addInfoHashRequestModel = new AddInfoHashRequestModel();
 		const encodedRequest = addInfoHashRequestModel
 			.toAddInfoHashRequestProto(data)

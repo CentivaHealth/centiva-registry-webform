@@ -1,4 +1,4 @@
-import { AddInfoHashRequest } from '@generated//provider_add_info_hash_pb';
+import {AddInfoHashRequest} from '@generated/provider_add_info_hash_pb';
 
 export interface AddInfoHashRequestData {
 	infoHash: Uint8Array | string;
