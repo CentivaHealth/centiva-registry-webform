@@ -25,35 +25,23 @@
 		<label class="input-box">
 			<span class="mb-10">Date of birth</span>
 			<input
-        [max]="maxDate"
-				[owlDateTime]="dateOfBirth"
-				[owlDateTimeTrigger]="dateOfBirth"
 				class="input-text-large"
 				type="text"
+        mask="0000-00-00"
+
 				formControlName="dateOfBirth"
 			/>
-			<owl-date-time
-				[pickerType]="'calendar'"
-				[startView]="'multi-years'"
-				#dateOfBirth
-			></owl-date-time>
 		</label>
 
 		<label class="input-box">
 			<span class="mb-10">Test Date</span>
 			<input
         [max]="maxDate"
-				[owlDateTime]="testDate"
-				[owlDateTimeTrigger]="testDate"
+        mask="0000-00-00"
 				class="input-text-large"
 				type="text"
 				formControlName="testDate"
 			/>
-			<owl-date-time
-				[pickerType]="'calendar'"
-				[startView]="'year'"
-				#testDate
-			></owl-date-time>
 		</label>
 
 		<label class="input-box">
@@ -77,8 +65,9 @@
 			<div class="select-arrow">></div>
 		</label>
 
-		<button
-      [disabled]="!form.valid"
+<!--    [disabled]="!form.valid"-->
+
+    <button
 			type="submit"
 			class="button-primary mt-40"
 			[ngClass]="{ 'button-primary-disabled': !form.valid }"

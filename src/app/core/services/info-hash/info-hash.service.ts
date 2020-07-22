@@ -3,9 +3,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormDataModel } from '@shared/type-models/form.model';
 import { Observable } from 'rxjs';
 import SHA3 from 'sha3';
-import { health } from '../../../../models/proto/provider-add-info-hash';
-import AddInfoHashRequest = health.centiva.registry.model.AddInfoHashRequest;
-import IAddInfoHashRequest = health.centiva.registry.model.IAddInfoHashRequest;
+import {
+	AddInfoHashRequestData,
+	AddInfoHashRequestModel
+} from '@models/provider-add-info-hash.model';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
@@ -16,7 +17,8 @@ export class InfoHashService {
 
 	constructor(private http: HttpClient) {}
 
-	sendInfoHash(data: IAddInfoHashRequest): Observable<ArrayBuffer> {
+	sendInfoHash(data: AddInfoHashRequestData): Observable<ArrayBuffer> {
+		// console.log(data);
 		const headers = new HttpHeaders({
 			Authorization: this.getAccessToken(),
 			'Content-Type': 'application/x-protobuf',
@@ -34,9 +36,12 @@ export class InfoHashService {
 		return accessToken;
 	}
 
-	prepareRequestArrayBuffer(data: IAddInfoHashRequest) {
-		const message = AddInfoHashRequest.create(data);
-		const encodedRequest = AddInfoHashRequest.encode(message).finish();
+	prepareRequestArrayBuffer(data: AddInfoHashRequestData) {
+		// console.log('prepareRequestArrayBuffer ', data);
+		const addInfoHashRequestModel = new AddInfoHashRequestModel();
+		const encodedRequest = addInfoHashRequestModel
+			.toAddInfoHashRequestProto(data)
+			.serializeBinary();
 
 		const offset = encodedRequest.byteOffset;
 		const length = encodedRequest.byteLength;
@@ -51,7 +56,13 @@ export class InfoHashService {
 		const hash = new SHA3(512);
 		hash.update(this.formatDataString(formData));
 		const encoded = hash.digest();
-		return encoded;
+		return this.convertToHex(encoded);
+	}
+
+	private convertToHex(data: Buffer): string {
+		return Array.prototype.map
+			.call(new Uint8Array(data), (x) => ('00' + x.toString(16)).slice(-2))
+			.join('');
 	}
 
 	formatDataString(data: FormDataModel): string {

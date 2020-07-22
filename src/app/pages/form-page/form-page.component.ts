@@ -12,8 +12,7 @@ import { MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment
 import * as moment from 'moment';
 import { InfoHashService } from '@core/services/info-hash/info-hash.service';
 import { MessageHandlerService } from '@core/services/message-handler/message-handler.service';
-import { health } from '../../../models/proto/provider-add-info-hash';
-import IAddInfoHashRequest = health.centiva.registry.model.IAddInfoHashRequest;
+import { AddInfoHashRequestData } from '@models/provider-add-info-hash.model';
 
 // Date picker formats
 export const MY_MOMENT_FORMATS = {
@@ -44,7 +43,7 @@ export class FormPageComponent implements OnInit {
 	testLabName: string;
 	form: FormGroup;
 	qrDataString: string;
-	addInfoHashData: IAddInfoHashRequest;
+	addInfoHashData: AddInfoHashRequestData;
 	@ViewChild('htmlData') htmlData: ElementRef;
 	maxDate: Date;
 
@@ -133,15 +132,7 @@ export class FormPageComponent implements OnInit {
 	}
 
 	onSendInfoHashError(error): void {
-		let errorMessage = 'Server error';
-		if (error.status === 400) {
-			errorMessage = 'Bad Request';
-		}
-		if (error.status === 500) {
-			errorMessage = 'Internal Server Error';
-		}
-		// const errorMessage = this.messageHandlerService.decodeMessage(error);
-		this.messageHandlerService.errorMessage(errorMessage);
+		this.messageHandlerService.decodedErrorMessage(error);
 	}
 
 	prepateQRData(): void {
@@ -160,7 +151,7 @@ export class FormPageComponent implements OnInit {
 		this.qrDataString = JSON.stringify(qrData);
 	}
 
-	formatDate(formFieldValue: Date, dateFormat: string): string {
+	formatDate(formFieldValue: string, dateFormat: string): string {
 		return moment(formFieldValue).format(dateFormat);
 	}
 
