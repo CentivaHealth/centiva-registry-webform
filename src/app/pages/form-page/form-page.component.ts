@@ -12,8 +12,7 @@ import { MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment
 import * as moment from 'moment';
 import { InfoHashService } from '@core/services/info-hash/info-hash.service';
 import { MessageHandlerService } from '@core/services/message-handler/message-handler.service';
-import { health } from '../../../models/proto/provider-add-info-hash';
-import IAddInfoHashRequest = health.centiva.registry.model.IAddInfoHashRequest;
+import { AddInfoHashRequestData } from '@models/provider-add-info-hash.model';
 
 // Date picker formats
 export const MY_MOMENT_FORMATS = {
@@ -41,10 +40,12 @@ export const MY_MOMENT_FORMATS = {
 })
 export class FormPageComponent implements OnInit {
 	version: string;
+	testLabName: string;
 	form: FormGroup;
 	qrDataString: string;
-	addInfoHashData: IAddInfoHashRequest;
+	addInfoHashData: AddInfoHashRequestData;
 	@ViewChild('htmlData') htmlData: ElementRef;
+	maxDate: Date;
 
 	constructor(
 		private authService: AuthService,
@@ -54,8 +55,10 @@ export class FormPageComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
+		this.maxDate = new Date();
 		this.qrDataString = 'default';
 		this.version = '1';
+		this.testLabName = 'MedLab';
 		this.createForm();
 	}
 
@@ -64,7 +67,7 @@ export class FormPageComponent implements OnInit {
 			name: new FormControl('', [
 				...this.validationService.setValidators('text')
 			]),
-			surName: new FormControl('', [
+			surname: new FormControl('', [
 				...this.validationService.setValidators('text')
 			]),
 			dateOfBirth: new FormControl('', [
@@ -86,33 +89,7 @@ export class FormPageComponent implements OnInit {
 		this.authService.signOut();
 	}
 
-	prepareAddInfoHashData(): void {
-		this.addInfoHashData = null;
-		this.addInfoHashData = {
-			infoHash: this.infoHashService.hashDataString(this.form.value),
-			labId: null,
-			labName: this.form.value.testProvider || null,
-			version: this.version || null,
-			testDate: this.validateDate(this.form.value.testDate),
-			testResult: this.form.value.testResult || null
-		};
-	}
-
-	validateDate(dateString: string): string | null {
-		return dateString === 'Invalid date' ? null : dateString;
-	}
-
 	onSubmit(): void {
-		// formatting date fields
-		this.form.value.dateOfBirth = this.formatDate(
-			this.form.value.dateOfBirth,
-			'YYYY-MM-DD'
-		);
-		this.form.value.testDate = this.formatDate(
-			this.form.value.testDate,
-			'YYYY-MM-DD'
-		);
-
 		this.prepareAddInfoHashData();
 		this.infoHashService.sendInfoHash(this.addInfoHashData).subscribe(
 			(): void => this.onSendInfoHashSuccess(),
@@ -123,22 +100,57 @@ export class FormPageComponent implements OnInit {
 		this.prepateQRData();
 	}
 
-	prepateQRData(): void {
-		this.form.value.v = this.version; // adding version to QR-code
-		this.qrDataString = JSON.stringify(this.form.value);
+	prepareAddInfoHashData(): void {
+		// formatting date fields
+		this.form.value.dateOfBirth = this.formatDate(
+			this.form.value.dateOfBirth,
+			'YYYY-MM-DD'
+		);
+		this.form.value.testDate = this.formatDate(
+			this.form.value.testDate,
+			'YYYY-MM-DD'
+		);
+		this.addInfoHashData = null;
+		this.addInfoHashData = {
+			infoHash: this.infoHashService.hashDataString(this.form.value),
+			testProvider: this.form.value.testProvider || null,
+			version: this.version || null,
+			testDate: this.validateDate(this.form.value.testDate),
+			testResult: this.form.value.testResult || null
+		};
+	}
+
+	validateDate(dateString: string): string | null {
+		return dateString === 'Invalid date' ? null : dateString;
 	}
 
 	onSendInfoHashSuccess(): void {
-		this.messageHandlerService.successMessage('info hash is saved');
 		this.downloadPDF();
+		this.messageHandlerService.successMessage('PDF was created.');
+		this.form.reset();
 	}
 
 	onSendInfoHashError(error): void {
-		const errorMessage = this.messageHandlerService.decodeMessage(error);
-		this.messageHandlerService.errorMessage(errorMessage);
+		this.messageHandlerService.decodedErrorMessage(error);
 	}
 
-	formatDate(formFieldValue: Date, dateFormat: string): string {
+	prepateQRData(): void {
+		this.form.value.testLabName = this.testLabName;
+		this.form.value.v = this.version; // adding version to QR-code
+		const qrData = {
+			name: this.form.value.name,
+			surname: this.form.value.surname,
+			dateOfBirth: this.form.value.dateOfBirth,
+			testDate: this.form.value.testDate,
+			testLabName: this.testLabName,
+			testProvider: this.form.value.testProvider,
+			testResult: this.form.value.testResult,
+			v: this.version
+		};
+		this.qrDataString = JSON.stringify(qrData);
+	}
+
+	formatDate(formFieldValue: string, dateFormat: string): string {
 		return moment(formFieldValue).format(dateFormat);
 	}
 
@@ -154,9 +166,9 @@ export class FormPageComponent implements OnInit {
 
 		// QR code img
 		const imageData = this.getBase64Image(qrcode.firstChild.firstChild);
-		doc.addImage(imageData, 'JPG', 136, 400);
+		doc.addImage(imageData, 'JPG', 136, 450);
 		doc.save(
-			`${this.form.value.name}-${this.form.value.surName}-test-result.pdf`
+			`${this.form.value.name}-${this.form.value.surname}-test-result.pdf`
 		);
 	}
 

@@ -146,7 +146,7 @@ button {
 		color: $background-translucent-60;
 		font-size: $medium-body-text;
 		font-weight: 500;
-		padding-left: 10px;
+		padding-left: 0;
 	}
 }
 
@@ -209,4 +209,19 @@ select:-webkit-autofill:focus {
 	border: 1px solid $background-translucent-10;
 	//-webkit-text-fill-color: $black;
 	-webkit-box-shadow: 0 0 0px 1000px #f5f5f6 inset;
+}
+
+//inputs validation
+.ng-touched.ng-invalid-required {
+  border-color: $invalid-red;
+}
+/* Show red border when stuff has been typed in, but its invalid */
+.ng-dirty.ng-invalid {
+  border-color: $invalid-red;
+}
+.ng-touched.ng-invalid{
+  border-color: $invalid-red;
+}
+.ng-submitted input.ng-invalid{
+  border-color: $invalid-red;
 }

@@ -3,20 +3,21 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormDataModel } from '@shared/type-models/form.model';
 import { Observable } from 'rxjs';
 import SHA3 from 'sha3';
-import { health } from '../../../../models/proto/provider-add-info-hash';
-import AddInfoHashRequest = health.centiva.registry.model.AddInfoHashRequest;
-import IAddInfoHashRequest = health.centiva.registry.model.IAddInfoHashRequest;
+import {
+  AddInfoHashRequestData, AddInfoHashRequestModel,
+
+} from '@models/provider-add-info-hash.model';
+import { environment } from '@environments/environment';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class InfoHashService {
-	url =
-		'https://europe-west6-registry-test-280713.cloudfunctions.net/provider-add-info-hash';
+	url = environment.providerURL;
 
 	constructor(private http: HttpClient) {}
 
-	sendInfoHash(data: IAddInfoHashRequest): Observable<ArrayBuffer> {
+	sendInfoHash(data: AddInfoHashRequestData): Observable<ArrayBuffer> {
 		const headers = new HttpHeaders({
 			Authorization: this.getAccessToken(),
 			'Content-Type': 'application/x-protobuf',
@@ -34,9 +35,11 @@ export class InfoHashService {
 		return accessToken;
 	}
 
-	prepareRequestArrayBuffer(data: IAddInfoHashRequest) {
-		const message = AddInfoHashRequest.create(data);
-		const encodedRequest = AddInfoHashRequest.encode(message).finish();
+	prepareRequestArrayBuffer(data: AddInfoHashRequestData) {
+		const addInfoHashRequestModel = new AddInfoHashRequestModel();
+		const encodedRequest = addInfoHashRequestModel
+			.toAddInfoHashRequestProto(data)
+			.serializeBinary();
 
 		const offset = encodedRequest.byteOffset;
 		const length = encodedRequest.byteLength;
@@ -47,17 +50,23 @@ export class InfoHashService {
 		return requestArrayBuffer;
 	}
 
-	hashDataString(formData: FormDataModel) {
+	hashDataString(formData: FormDataModel): string {
 		const hash = new SHA3(512);
 		hash.update(this.formatDataString(formData));
 		const encoded = hash.digest();
-		return encoded;
+		return this.convertToHex(encoded);
+	}
+
+	private convertToHex(data: Buffer): string {
+		return Array.prototype.map
+			.call(new Uint8Array(data), (x) => ('00' + x.toString(16)).slice(-2))
+			.join('');
 	}
 
 	formatDataString(data: FormDataModel): string {
 		const name = data.name.trim();
-		const surName = data.surName.trim();
-		const dataString = `name:${name};surname:${surName};dateOfBirth:${data.dateOfBirth};testDate:${data.testDate};testProvider:${data.testProvider};testResult:${data.testResult}`;
+		const surname = data.surname.trim();
+		const dataString = `name:${name};surname:${surname};dateOfBirth:${data.dateOfBirth};testDate:${data.testDate};testProvider:${data.testProvider};testResult:${data.testResult};labName:MedLab;`;
 		return dataString;
 	}
 }

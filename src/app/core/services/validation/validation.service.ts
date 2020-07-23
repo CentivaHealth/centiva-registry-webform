@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, ValidatorFn, Validators } from '@angular/forms';
+import {
+	AbstractControl,
+	ValidatorFn,
+	Validators
+} from '@angular/forms';
+import * as moment from 'moment';
 
 @Injectable({
 	providedIn: 'root'
@@ -20,12 +25,14 @@ export class ValidationService {
 
 		if (type === 'email') {
 			validators.push(Validators.email);
-			validators.push(Validators.minLength(5));
+			validators.push(Validators.minLength(6));
 			validators.push(Validators.pattern(emailPattern));
 			validators.push(Validators.required);
 		}
 		if (type === 'date') {
-			validators.push(Validators.minLength(5));
+			validators.push(Validators.minLength(8));
+			validators.push(this.checkMaxDate());
+			validators.push(this.checkDate());
 			validators.push(Validators.required);
 		}
 
@@ -36,9 +43,34 @@ export class ValidationService {
 		return validators;
 	}
 
+	private checkMaxDate(): ValidatorFn {
+		return (control: AbstractControl): { [key: string]: any } => {
+			if (control.value) {
+				const dateFormat = 'YYYYMMDD';
+				const todayDate = moment(new Date()).format(dateFormat);
+				return Number(control.value) <= Number(todayDate)
+					? null
+					: { date: 'Date cannot be greater than today' };
+			}
+			return null;
+		};
+	}
+
+	private checkDate(): ValidatorFn {
+		return (control: AbstractControl): { [key: string]: any } => {
+			if (control.value) {
+				const dateFormat = 'YYYYMMDD';
+				return moment(control.value).format(dateFormat) !== 'Invalid date'
+					? null
+					: { date: 'Invalid date' };
+			}
+			return null;
+		};
+	}
+
 	private checkSpaces(): ValidatorFn {
 		return (control: AbstractControl): { [key: string]: any } => {
-			if (control.value !== '') {
+			if (control.value) {
 				return control.value.trim().length !== 0
 					? null
 					: { whitespace: 'value is only whitespace' };

@@ -4,8 +4,7 @@ import {
 	TOASTR_CONFIG_INLINE,
 	TOASTR_CONFIG_LOCAL
 } from '@core/services/message-handler/toastr.config';
-import { health } from '../../../../models/proto/error-response';
-import ErrorResponse = health.centiva.registry.model.ErrorResponse;
+import {ErrorResponse} from '@generated/error_response_pb';
 
 @Injectable({
 	providedIn: 'root'
@@ -20,10 +19,6 @@ export class MessageHandlerService {
 	);
 	constructor(private toastrService: ToastrService) {}
 
-	decodeMessage(errorMessage): string {
-		return ErrorResponse.decode(new Uint8Array(errorMessage.error)).message;
-	}
-
 	successMessage(message): void {
 		const toasterTitle = 'Success!';
 		const toasterMessage = message;
@@ -34,5 +29,18 @@ export class MessageHandlerService {
 		const toasterTitle = 'Woops!';
 		const toasterMessage = message;
 		this.toastrService.error(toasterMessage, toasterTitle, this.config);
+	}
+
+	decodedErrorMessage(message): void {
+		const toasterTitle = 'Woops!';
+		const toasterMessage = this.decodeMessage(message);
+		this.toastrService.error(toasterMessage, toasterTitle, this.config);
+	}
+
+	decodeMessage(error): string {
+		const err = ErrorResponse.deserializeBinary(
+			new Uint8Array(error.error)
+		).getMessage();
+		return err;
 	}
 }

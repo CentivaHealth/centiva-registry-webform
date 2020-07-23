@@ -37,13 +37,11 @@ export class LoginComponent implements OnInit {
 
 	signIn(userName: string, userPassword: string): void {
 		this.authService.signIn(userName, userPassword);
-		this.authService.userIsLoggedIn
-			.pipe(filter((data): boolean => !data))
-			.subscribe(
-				(): void => {
-					this.router.navigateByUrl('form');
-				},
-				(error): void => this.messageHandlerService.errorMessage(error.message)
-			);
+		this.authService.userIsLoggedIn.subscribe(
+			(data): void => {
+				this.router.navigateByUrl('form');
+			},
+			(error): void => this.messageHandlerService.errorMessage(error.message)
+		);
 	}
 }

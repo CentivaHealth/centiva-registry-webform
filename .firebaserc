@@ -7,5 +7,9 @@
         ]
       }
     }
+  },
+  "projects": {
+    "default": "registry-test-280713",
+    "registry-staging": "registry-staging"
   }
 }
