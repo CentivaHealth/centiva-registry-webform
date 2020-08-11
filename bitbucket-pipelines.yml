@@ -16,7 +16,7 @@ pipelines:
               apt-get install -y google-chrome-stable xvfb procps
           - git submodule update --init --recursive
           - echo $ENVIRONMENT_DEV_TS > src/environments/environment.ts
-          - npm install
+          - npm install --unsafe-perm
           - npm run test:ci
           - npm run e2e:ci
 
@@ -36,7 +36,7 @@ pipelines:
               - git submodule update --init --recursive
               - echo $ENVIRONMENT_DEV_TS > src/environments/environment.ts
               - echo $ENVIRONMENT_TS > src/environments/environment.prod.ts
-              - npm install
+              - npm install --unsafe-perm
               - npm run test:ci
               - npm run e2e:ci
               - npm run build:prod
