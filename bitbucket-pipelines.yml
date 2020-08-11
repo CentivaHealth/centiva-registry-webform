@@ -1,8 +1,9 @@
+image: node:10.15.3
+
 pipelines:
   default:
     - step:
         name: Test Web Form
-        image: atlassian/default-image:2
         caches:
           - node
         script:
@@ -20,6 +21,7 @@ pipelines:
   branches:
     feature/bitbucket-pipelines:
         - step:
+            name: Test and deploy Web Form
             deployment: test
             script:
             - sudo apt install -y protobuf-compiler
