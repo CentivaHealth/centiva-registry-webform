@@ -9,13 +9,13 @@ pipelines:
         script:
           - apt-get update
           - apt-get install -y protobuf-compiler
-          - echo $ENVIRONMENT_DEV_TS > src/environments/environment.ts
-          - npm install
           - >
             wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
               sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' && \
               apt-get update && \
               apt-get install -y google-chrome-stable xvfb procps
+          - echo $ENVIRONMENT_DEV_TS > src/environments/environment.ts
+          - npm install
           - npm run test:ci
           - npm run e2e:ci
 
@@ -27,14 +27,14 @@ pipelines:
             script:
               - apt-get update
               - apt install -y protobuf-compiler
-              - echo $ENVIRONMENT_DEV_TS > src/environments/environment.ts
-              - echo $ENVIRONMENT_TS > src/environments/environment.prod.ts
-              - npm install
               - >
                 wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
                   sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' && \
                   apt-get update && \
                   apt-get install -y google-chrome-stable xvfb procps
+              - echo $ENVIRONMENT_DEV_TS > src/environments/environment.ts
+              - echo $ENVIRONMENT_TS > src/environments/environment.prod.ts
+              - npm install
               - npm run test:ci
               - npm run e2e:ci
               - npm run build:prod
