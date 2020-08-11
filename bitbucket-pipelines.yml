@@ -7,7 +7,7 @@ pipelines:
         caches:
           - node
         script:
-          - sudo apt install -y protobuf-compiler
+          - apt install -y protobuf-compiler
           - echo $ENVIRONMENT_DEV_TS > environment.ts
           - npm install
           - >
@@ -24,7 +24,7 @@ pipelines:
             name: Test and deploy Web Form
             deployment: test
             script:
-            - sudo apt install -y protobuf-compiler
+            - apt install -y protobuf-compiler
             - echo $ENVIRONMENT_DEV_TS > environment.ts
             - echo $ENVIRONMENT_TS > environment.prod.ts
             - npm install
