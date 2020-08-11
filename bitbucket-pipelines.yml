@@ -9,7 +9,7 @@ pipelines:
         script:
           - apt-get update
           - apt-get install -y protobuf-compiler
-          - echo $ENVIRONMENT_DEV_TS > environment.ts
+          - echo $ENVIRONMENT_DEV_TS > src/environments/environment.ts
           - npm install
           - >
             wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
@@ -27,8 +27,8 @@ pipelines:
             script:
               - apt-get update
               - apt install -y protobuf-compiler
-              - echo $ENVIRONMENT_DEV_TS > environment.ts
-              - echo $ENVIRONMENT_TS > environment.prod.ts
+              - echo $ENVIRONMENT_DEV_TS > src/environments/environment.ts
+              - echo $ENVIRONMENT_TS > src/environments/environment.prod.ts
               - npm install
               - >
                 wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
