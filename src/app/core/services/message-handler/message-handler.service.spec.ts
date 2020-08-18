@@ -1,12 +1,21 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { MessageHandlerService } from './message-handler.service';
+import {MessageHandlerService} from './message-handler.service';
+import {ToastrService} from 'ngx-toastr';
 
 describe('MessageHandlerService', () => {
   let service: MessageHandlerService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    const toastrService = jasmine.createSpyObj('ToastrService', ['show']);
+
+    TestBed.configureTestingModule({
+      providers: [
+        MessageHandlerService,
+        {provide: ToastrService, useValue: toastrService}
+      ]
+
+    });
     service = TestBed.inject(MessageHandlerService);
   });
 
