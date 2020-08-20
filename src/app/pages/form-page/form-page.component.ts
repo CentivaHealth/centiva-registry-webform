@@ -39,8 +39,10 @@ export const MY_MOMENT_FORMATS = {
 	]
 })
 export class FormPageComponent implements OnInit {
+	isDemoUser: boolean;
 	version: string;
 	testLabName: string;
+	testProvider: string;
 	form: FormGroup;
 	qrDataString: string;
 	addInfoHashData: AddInfoHashRequestData;
@@ -55,11 +57,19 @@ export class FormPageComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
+		this.isDemoUser = this.checkIfDemoUser();
 		this.maxDate = new Date();
 		this.qrDataString = 'default';
 		this.version = '1';
-		this.testLabName = 'MedLab';
+		this.testLabName = `${this.isDemoUser ? '[DEMO] ' : ''}MedLab`;
+		this.testProvider = `${
+			this.isDemoUser ? '[DEMO] ' : ''
+		}Roche COVID Anti-SARS-CoV-2`;
 		this.createForm();
+	}
+
+	checkIfDemoUser(): boolean {
+		return JSON.parse(localStorage.getItem('user')).email.includes('demo');
 	}
 
 	createForm(): void {

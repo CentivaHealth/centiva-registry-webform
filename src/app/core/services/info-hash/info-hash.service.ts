@@ -4,8 +4,8 @@ import { FormDataModel } from '@shared/type-models/form.model';
 import { Observable } from 'rxjs';
 import SHA3 from 'sha3';
 import {
-  AddInfoHashRequestData, AddInfoHashRequestModel,
-
+	AddInfoHashRequestData,
+	AddInfoHashRequestModel
 } from '@models/provider-add-info-hash.model';
 import { environment } from '@environments/environment';
 
@@ -66,7 +66,7 @@ export class InfoHashService {
 	formatDataString(data: FormDataModel): string {
 		const name = data.name.trim();
 		const surname = data.surname.trim();
-		const dataString = `name:${name};surname:${surname};dateOfBirth:${data.dateOfBirth};testDate:${data.testDate};testProvider:${data.testProvider};testResult:${data.testResult};labName:MedLab;`;
+		const dataString = `name:${name};surname:${surname};dateOfBirth:${data.dateOfBirth};testDate:${data.testDate};testProvider:${data.testProvider};testResult:${data.testResult};labName:${data.testLabName};`;
 		return dataString;
 	}
 }
