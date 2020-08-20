@@ -1,6 +1,11 @@
 <div class="login-container">
 	<div class="displayTable">
 		<div class="displayTableCell">
+			<!--			<form-->
+			<!--				class="authBlock"-->
+			<!--				[formGroup]="form"-->
+			<!--				(ngSubmit)="signIn(userName.value, userPassword.value)"-->
+			<!--			>-->
 			<form
 				class="authBlock"
 				[formGroup]="form"
@@ -48,3 +53,7 @@
 		</div>
 	</div>
 </div>
+<button (click)="signIn()">sign with Auth0</button>
+<br>
+<button (click)="qwe()">is authenticated</button>
+<h1>{{ isAuthenticated }}</h1>
