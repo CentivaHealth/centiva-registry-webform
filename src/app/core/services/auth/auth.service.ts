@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { User } from '@core/models/models';
 import { BehaviorSubject } from 'rxjs';
 import { MessageHandlerService } from '@core/services/message-handler/message-handler.service';
+import { UserService } from '@core/services/user/user.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -20,22 +21,31 @@ export class AuthService {
 		public afs: AngularFirestore, // Inject Firestore service
 		public afAuth: AngularFireAuth, // Inject Firebase auth service
 		public router: Router,
-		private messageHandlerService: MessageHandlerService
+		private messageHandlerService: MessageHandlerService,
+		private userService: UserService
 	) {
 		/* Saving user data in localstorage when
     logged in and setting up null when logged out */
-		this.afAuth.authState.subscribe((user): void => {
-			if (user) {
-				this.userData = user;
-				localStorage.setItem('user', JSON.stringify(this.userData));
-				this.userIsLoggedIn.next(true);
-				JSON.parse(localStorage.getItem('user'));
-			} else {
-				localStorage.setItem('user', null);
-				JSON.parse(localStorage.getItem('user'));
-				this.userIsLoggedIn.next(null);
+		this.afAuth.authState.subscribe(
+			async (user): Promise<void> => {
+				if (user) {
+					const usrModel = await userService.getByEmail(user.email);
+					const dataCopy = JSON.parse(JSON.stringify(user));
+					dataCopy.testProvider = usrModel.testProvider;
+					dataCopy.demo = usrModel.demo;
+					dataCopy.testLabName = usrModel.testLabName;
+					dataCopy.testLabId = usrModel.testLabId;
+					localStorage.setItem('user', JSON.stringify(dataCopy));
+					this.userIsLoggedIn.next(true);
+					JSON.parse(localStorage.getItem('user'));
+				} else {
+					localStorage.setItem('user', null);
+					JSON.parse(localStorage.getItem('user'));
+					this.userIsLoggedIn.next(null);
+				}
+				return Promise.resolve();
 			}
-		});
+		);
 	}
 
 	get isLoggedIn(): boolean {

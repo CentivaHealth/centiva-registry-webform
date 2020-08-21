@@ -57,19 +57,22 @@ export class FormPageComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		this.isDemoUser = this.checkIfDemoUser();
+		this.getUserDataFromStorage();
 		this.maxDate = new Date();
 		this.qrDataString = 'default';
 		this.version = '1';
-		this.testLabName = `${this.isDemoUser ? '[DEMO] ' : ''}MedLab`;
-		this.testProvider = `${
-			this.isDemoUser ? '[DEMO] ' : ''
-		}Roche COVID Anti-SARS-CoV-2`;
 		this.createForm();
 	}
 
-	checkIfDemoUser(): boolean {
-		return JSON.parse(localStorage.getItem('user')).email.includes('demo');
+	getUserDataFromStorage(): void {
+		const userData = JSON.parse(localStorage.getItem('user'));
+		this.isDemoUser = userData.demo;
+		this.testProvider = this.addDemoLabel(userData.testProvider);
+		this.testLabName = this.addDemoLabel(userData.testLabName);
+	}
+
+	addDemoLabel(data: string): string {
+		return `${this.isDemoUser ? '[DEMO] ' : ''}${data}`;
 	}
 
 	createForm(): void {
