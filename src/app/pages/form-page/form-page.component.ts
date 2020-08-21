@@ -66,12 +66,18 @@ export class FormPageComponent implements OnInit {
 
 	handleUserDataFromStorage(): void {
 		const userData = JSON.parse(localStorage.getItem('user'));
+		if (!userData) {
+			return;
+		}
 		this.isDemoUser = userData.demo;
 		this.testProvider = this.addDemoLabel(userData.testProvider);
 		this.testLabName = this.addDemoLabel(userData.testLabName);
 	}
 
 	addDemoLabel(data: string): string {
+		if (data.includes('[DEMO]')) {
+			return data;
+		}
 		return `${this.isDemoUser ? '[DEMO] ' : ''}${data}`;
 	}
 

@@ -14,7 +14,6 @@ import { UserService } from '@core/services/user/user.service';
 	providedIn: 'root'
 })
 export class AuthService {
-	userData: any; // Save logged in user data
 	userIsLoggedIn = new BehaviorSubject<boolean>(null);
 
 	constructor(
