@@ -57,14 +57,14 @@ export class FormPageComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		this.getUserDataFromStorage();
+		this.handleUserDataFromStorage();
 		this.maxDate = new Date();
 		this.qrDataString = 'default';
 		this.version = '1';
 		this.createForm();
 	}
 
-	getUserDataFromStorage(): void {
+	handleUserDataFromStorage(): void {
 		const userData = JSON.parse(localStorage.getItem('user'));
 		this.isDemoUser = userData.demo;
 		this.testProvider = this.addDemoLabel(userData.testProvider);
