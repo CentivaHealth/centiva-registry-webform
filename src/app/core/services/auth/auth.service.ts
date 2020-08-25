@@ -30,6 +30,9 @@ export class AuthService {
 				if (user) {
 					const usrModel = await userService.getByEmail(user.email);
 					const dataCopy = JSON.parse(JSON.stringify(user));
+					if (!this.isUserDataValid(usrModel)) {
+						return;
+					}
 					dataCopy.testProvider = usrModel.testProvider;
 					dataCopy.demo = usrModel.demo;
 					dataCopy.testLabName = usrModel.testLabName;
@@ -45,6 +48,15 @@ export class AuthService {
 				return Promise.resolve();
 			}
 		);
+	}
+
+	isUserDataValid(data): boolean {
+		if (data && data.testProvider && data.testLabName) {
+			return true;
+		} else {
+			this.messageHandlerService.errorMessage('Invalid user data');
+			return false;
+		}
 	}
 
 	get isLoggedIn(): boolean {
