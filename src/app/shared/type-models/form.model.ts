@@ -5,4 +5,6 @@ export interface FormDataModel {
 	testDate: string;
 	testProvider: string;
 	testResult: string;
+	testLabName: string;
+	v: string;
 }
