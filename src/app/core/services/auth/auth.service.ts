@@ -27,25 +27,37 @@ export class AuthService {
     logged in and setting up null when logged out */
 		this.afAuth.authState.subscribe(
 			async (user): Promise<void> => {
-				if (user) {
-					const usrModel = await userService.getByEmail(user.email);
-					const dataCopy = JSON.parse(JSON.stringify(user));
-					if (!this.isUserDataValid(usrModel)) {
-						return;
-					}
-					dataCopy.testProvider = usrModel.testProvider;
-					dataCopy.demo = usrModel.demo;
-					dataCopy.testLabName = usrModel.testLabName;
-					dataCopy.testLabId = usrModel.testLabId;
-					localStorage.setItem('user', JSON.stringify(dataCopy));
-					this.userIsLoggedIn.next(true);
-					JSON.parse(localStorage.getItem('user'));
-				} else {
+				if (!user) {
 					localStorage.setItem('user', null);
 					JSON.parse(localStorage.getItem('user'));
 					this.userIsLoggedIn.next(null);
+					return Promise.resolve();
 				}
+				if (user.isAnonymous) {
+					return Promise.resolve();
+				}
+				const usrModel = await userService.getByEmail(user.email);
+				if (!usrModel) {
+					this.messageHandlerService.errorMessage('User not found');
+					this.signOut();
+					return Promise.resolve();
+				}
+				const dataCopy = JSON.parse(JSON.stringify(user));
+				if (!this.isUserDataValid(usrModel)) {
+					return Promise.resolve();
+				}
+				dataCopy.testProvider = usrModel.testProvider;
+				dataCopy.demo = usrModel.demo;
+				dataCopy.testLabName = usrModel.testLabName;
+				dataCopy.testLabId = usrModel.testLabId;
+				localStorage.setItem('user', JSON.stringify(dataCopy));
+				this.userIsLoggedIn.next(true);
+				JSON.parse(localStorage.getItem('user'));
+
 				return Promise.resolve();
+			},
+			(error): void => {
+				this.messageHandlerService.errorMessage('Can not get user data');
 			}
 		);
 	}
