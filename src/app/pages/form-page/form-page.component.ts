@@ -100,8 +100,10 @@ export class FormPageComponent implements OnInit {
 			]),
 			testResult: new FormControl('', [
 				...this.validationService.setValidators('select')
-			])
+			]),
+			testLabName: new FormControl()
 		});
+		this.form.patchValue({ testLabName: this.testLabName });
 	}
 
 	signOut(): void {
@@ -161,7 +163,7 @@ export class FormPageComponent implements OnInit {
 			surname: this.form.value.surname,
 			dateOfBirth: this.form.value.dateOfBirth,
 			testDate: this.form.value.testDate,
-			testLabName: this.testLabName,
+			testLabName: this.form.value.testLabName,
 			testProvider: this.form.value.testProvider,
 			testResult: this.form.value.testResult,
 			v: this.version
