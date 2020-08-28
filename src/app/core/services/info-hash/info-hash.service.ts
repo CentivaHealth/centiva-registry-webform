@@ -78,7 +78,7 @@ export class InfoHashService {
 			!data.testResult ||
 			!data.testLabName
 		) {
-			this.messageHandlerService.errorMessage('Incorrect info hash data');
+			this.messageHandlerService.errorMessage('Incorrect data');
 			return;
 		}
 		const name = data.name.trim();
