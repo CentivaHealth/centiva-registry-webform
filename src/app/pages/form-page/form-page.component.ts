@@ -101,9 +101,11 @@ export class FormPageComponent implements OnInit {
 			testResult: new FormControl('', [
 				...this.validationService.setValidators('select')
 			]),
-			testLabName: new FormControl()
+			testLabName: new FormControl(),
+			v: new FormControl()
 		});
 		this.form.patchValue({ testLabName: this.testLabName });
+		this.form.patchValue({ v: this.version });
 	}
 
 	signOut(): void {
@@ -156,8 +158,6 @@ export class FormPageComponent implements OnInit {
 	}
 
 	prepateQRData(): void {
-		this.form.value.testLabName = this.testLabName;
-		this.form.value.v = this.version; // adding version to QR-code
 		const qrData = {
 			name: this.form.value.name,
 			surname: this.form.value.surname,
