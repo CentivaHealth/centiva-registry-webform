@@ -36,10 +36,7 @@ export class Auth0Service {
 		tap((res) => (this.loggedIn = res))
 	);
 	handleRedirectCallback$ = this.auth0Client$.pipe(
-		concatMap((client: Auth0Client) => {
-			// console.log('from(client.handleRedirectCallback()) ', );
-			return from(client.handleRedirectCallback());
-		})
+		concatMap((client: Auth0Client) => from(client.handleRedirectCallback()))
 	);
 	// Create subject and public observable of user profile data
 	private userProfileSubject$ = new BehaviorSubject<any>(null);
@@ -65,6 +62,7 @@ export class Auth0Service {
 	}
 
 	private localAuthSetup() {
+		console.log('localAuthSetup');
 		// This should only be called on app initialization
 		// Set up local authentication streams
 		const checkAuth$ = this.isAuthenticated$.pipe(
@@ -88,13 +86,14 @@ export class Auth0Service {
 		this.auth0Client$.subscribe((client: Auth0Client) => {
 			// Call method to log in
 			client.loginWithRedirect({
-				redirect_uri: `${window.location.origin}`,
+				redirect_uri: `${window.location.origin}/${redirectPath}`,
 				appState: { target: redirectPath }
 			});
 		});
 	}
 
 	private handleAuthCallback() {
+		console.log('handleAuthCallback');
 		// Call when app reloads after user logs in with Auth0
 		const params = window.location.search;
 		if (params.includes('code=') && params.includes('state=')) {
@@ -127,7 +126,7 @@ export class Auth0Service {
 		this.auth0Client$.subscribe((client: Auth0Client) => {
 			// Call method to log out
 			client.logout({
-				client_id: 'YOUR_CLIENT_ID',
+				client_id: 'f7q0H9EVPLEOYEqQu1MMwfC8MppRTRSx',
 				returnTo: `${window.location.origin}`
 			});
 		});

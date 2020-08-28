@@ -9,7 +9,7 @@
 			<form
 				class="authBlock"
 				[formGroup]="form"
-				(ngSubmit)="signIn(userName.value, userPassword.value)"
+        (ngSubmit)="signIn(userName.value, userPassword.value)"
 			>
 				<h1 class="mt-40">Centiva Registry Webform</h1>
 				<h1 class="mt-40">Login</h1>
@@ -53,7 +53,9 @@
 		</div>
 	</div>
 </div>
-<button (click)="signIn()">sign with Auth0</button>
+<button (click)="signInAuth0()">sign with Auth0</button>
+<br>
+<button (click)="signOutAuth0()">sign out with Auth0</button>
 <br>
 <button (click)="qwe()">is authenticated</button>
 <h1>{{ isAuthenticated }}</h1>

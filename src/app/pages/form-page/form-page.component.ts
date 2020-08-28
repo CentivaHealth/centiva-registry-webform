@@ -13,6 +13,7 @@ import * as moment from 'moment';
 import { InfoHashService } from '@core/services/info-hash/info-hash.service';
 import { MessageHandlerService } from '@core/services/message-handler/message-handler.service';
 import { AddInfoHashRequestData } from '@models/provider-add-info-hash.model';
+import { Auth0Service } from '@core/services/auth0/auth0.service';
 
 // Date picker formats
 export const MY_MOMENT_FORMATS = {
@@ -51,6 +52,7 @@ export class FormPageComponent implements OnInit {
 
 	constructor(
 		private authService: AuthService,
+		private auth0Service: Auth0Service,
 		private validationService: ValidationService,
 		private infoHashService: InfoHashService,
 		private messageHandlerService: MessageHandlerService
@@ -62,6 +64,16 @@ export class FormPageComponent implements OnInit {
 		this.qrDataString = 'default';
 		this.version = '1';
 		this.createForm();
+
+		this.auth0Service.userProfile$.subscribe((data) => {
+			console.log('userProfile$ ', data);
+		});
+		this.auth0Service.getUser$().subscribe((data) => {
+			console.log('getUser$ ', data);
+		});
+		this.auth0Service.auth0Client$.subscribe((data) => {
+			console.log('auth0Client$ ', data);
+		});
 	}
 
 	handleUserDataFromStorage(): void {
@@ -106,6 +118,7 @@ export class FormPageComponent implements OnInit {
 
 	signOut(): void {
 		this.authService.signOut();
+		// this.auth0Service.logout();
 	}
 
 	onSubmit(): void {

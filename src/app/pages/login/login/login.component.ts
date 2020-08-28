@@ -13,7 +13,7 @@ import { Auth0Service } from '@core/services/auth0/auth0.service';
 	styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-	isAuthenticated: boolean;
+	isAuthenticated;
 
 	form: FormGroup;
 	constructor(
@@ -26,6 +26,9 @@ export class LoginComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.createForm();
+    this.auth0Service.isAuthenticated$.subscribe((data) => {
+			this.isAuthenticated = data;
+		});
 	}
 
 	createForm(): void {
@@ -39,24 +42,29 @@ export class LoginComponent implements OnInit {
 		});
 	}
 
-	// signIn(userName: string, userPassword: string): void {
-	// 	this.authService.signIn(userName, userPassword);
-	// 	this.authService.userIsLoggedIn.subscribe(
-	// 		(data): void => {
-	// 			this.router.navigateByUrl('form');
-	// 		},
-	// 		(error): void => this.messageHandlerService.errorMessage(error.message)
-	// 	);
-	// }
+	signIn(userName: string, userPassword: string): void {
+		this.authService.signIn(userName, userPassword);
+		this.authService.userIsLoggedIn.subscribe(
+			(data): void => {
+				this.router.navigateByUrl('form');
+			},
+			(error): void => this.messageHandlerService.errorMessage(error.message)
+		);
+	}
 
-	signIn(): void {
-		this.auth0Service.login('/login');
+	signInAuth0(): void {
+		this.auth0Service.login('form');
+	}
+
+	signOutAuth0() {
+		this.auth0Service.logout();
 	}
 
 	qwe() {
-		// this.isAuthenticated = this.auth0Service.loggedIn;
-		this.auth0Service.isAuthenticated$.subscribe((data) => {
-			this.isAuthenticated = data;
-		});
+		// this.isAuthenticated = JSON.stringify(this.auth0Service.isAuthenticated$);
+		console.log(this.auth0Service.isAuthenticated$);
+		// this.auth0Service.isAuthenticated$.subscribe((data) => {
+		// 	this.isAuthenticated = data;
+		// });
 	}
 }
