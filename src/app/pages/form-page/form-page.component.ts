@@ -90,7 +90,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
 				)
 			)
 			.subscribe((userMetadata: UserMetadata): void => {
-				console.log('userProfile$ ', userMetadata);
 				if (
 					userMetadata &&
 					userMetadata.testLabName &&
@@ -148,8 +147,8 @@ export class FormPageComponent implements OnInit, OnDestroy {
 	}
 
 	signOut(): void {
-		this.authService.signOut();
-		// this.auth0Service.logout();
+		// this.authService.signOut();
+		this.auth0Service.logout();
 	}
 
 	onSubmit(): void {

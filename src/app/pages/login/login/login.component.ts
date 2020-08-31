@@ -26,9 +26,6 @@ export class LoginComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.createForm();
-    this.auth0Service.isAuthenticated$.subscribe((data) => {
-			this.isAuthenticated = data;
-		});
 	}
 
 	createForm(): void {
