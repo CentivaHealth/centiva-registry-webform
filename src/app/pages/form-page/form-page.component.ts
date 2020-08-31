@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+	Component,
+	ElementRef,
+	OnDestroy,
+	OnInit,
+	ViewChild
+} from '@angular/core';
 import { AuthService } from '@core/services/auth/auth.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as jsPDF from 'jspdf';
@@ -14,6 +20,9 @@ import { InfoHashService } from '@core/services/info-hash/info-hash.service';
 import { MessageHandlerService } from '@core/services/message-handler/message-handler.service';
 import { AddInfoHashRequestData } from '@models/provider-add-info-hash.model';
 import { Auth0Service } from '@core/services/auth0/auth0.service';
+import { Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+import { UserMetadata } from '@core/models/user.model';
 
 // Date picker formats
 export const MY_MOMENT_FORMATS = {
@@ -39,7 +48,8 @@ export const MY_MOMENT_FORMATS = {
 		{ provide: OWL_DATE_TIME_FORMATS, useValue: MY_MOMENT_FORMATS }
 	]
 })
-export class FormPageComponent implements OnInit {
+export class FormPageComponent implements OnInit, OnDestroy {
+	unsubscribe: Subject<void> = new Subject<void>();
 	isDemoUser: boolean;
 	version: string;
 	testLabName: string;
@@ -59,21 +69,38 @@ export class FormPageComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		this.handleUserDataFromStorage();
+		// this.handleUserDataFromStorage();
+		this.getUserMetadata();
 		this.maxDate = new Date();
 		this.qrDataString = 'default';
 		this.version = '1';
 		this.createForm();
+	}
 
-		this.auth0Service.userProfile$.subscribe((data) => {
-			console.log('userProfile$ ', data);
-		});
-		this.auth0Service.getUser$().subscribe((data) => {
-			console.log('getUser$ ', data);
-		});
-		this.auth0Service.auth0Client$.subscribe((data) => {
-			console.log('auth0Client$ ', data);
-		});
+	getUserMetadata(): void {
+		this.auth0Service.userProfile$
+			.pipe(
+				takeUntil(this.unsubscribe),
+				map(
+					(data): UserMetadata => {
+						if (data) {
+							return data[`${window.location.origin}/userMetadata`];
+						}
+					}
+				)
+			)
+			.subscribe((userMetadata: UserMetadata): void => {
+				console.log('userProfile$ ', userMetadata);
+				if (
+					userMetadata &&
+					userMetadata.testLabName &&
+					userMetadata.testProvider
+				) {
+					this.isDemoUser = userMetadata.demo;
+					this.testProvider = this.addDemoLabel(userMetadata.testProvider);
+					this.testLabName = this.addDemoLabel(userMetadata.testLabName);
+				}
+			});
 	}
 
 	handleUserDataFromStorage(): void {
@@ -213,5 +240,10 @@ export class FormPageComponent implements OnInit {
 		const ctx = canvas.getContext('2d');
 		ctx.drawImage(img, 0, 0);
 		return canvas.toDataURL('image/png');
+	}
+
+	ngOnDestroy(): void {
+		this.unsubscribe.next();
+		this.unsubscribe.complete();
 	}
 }

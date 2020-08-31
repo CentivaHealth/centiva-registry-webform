@@ -62,7 +62,7 @@ export class Auth0Service {
 	}
 
 	private localAuthSetup() {
-		console.log('localAuthSetup');
+		// console.log('localAuthSetup');
 		// This should only be called on app initialization
 		// Set up local authentication streams
 		const checkAuth$ = this.isAuthenticated$.pipe(
@@ -85,6 +85,7 @@ export class Auth0Service {
 		// Ensure Auth0 client instance exists
 		this.auth0Client$.subscribe((client: Auth0Client) => {
 			// Call method to log in
+			console.log('login client ', client);
 			client.loginWithRedirect({
 				redirect_uri: `${window.location.origin}/${redirectPath}`,
 				appState: { target: redirectPath }
@@ -93,7 +94,7 @@ export class Auth0Service {
 	}
 
 	private handleAuthCallback() {
-		console.log('handleAuthCallback');
+		// console.log('handleAuthCallback');
 		// Call when app reloads after user logs in with Auth0
 		const params = window.location.search;
 		if (params.includes('code=') && params.includes('state=')) {
