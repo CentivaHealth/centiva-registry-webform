@@ -102,13 +102,13 @@
 			<br />
 			<h3>Test Date: {{ form.value.testDate | amDateFormat: 'YYYY-MM-DD' }}</h3>
 			<br />
-      <h3>Test Lab: {{ testLabName }}</h3>
+      <h3>Test Lab: {{ form.value.testLabName }}</h3>
       <br />
       <h3>Test Provider: {{ form.value.testProvider }}</h3>
 			<br />
 			<h3>Test Result: {{ form.value.testResult === '1' ? 'positive' : 'negative' }}</h3>
 			<br />
-			<h3>v:{{ version }}</h3>
+			<h3>v:{{ form.value.v }}</h3>
 		</div>
 	</div>
 </div>

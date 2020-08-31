@@ -4,7 +4,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ValidationService } from '@core/services/validation/validation.service';
 import { Router } from '@angular/router';
 import { MessageHandlerService } from '@core/services/message-handler/message-handler.service';
-import { filter } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-login',
