@@ -8,6 +8,7 @@ import {
 	AddInfoHashRequestModel
 } from '@models/provider-add-info-hash.model';
 import { environment } from '@environments/environment';
+import { MessageHandlerService } from '@core/services/message-handler/message-handler.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -15,7 +16,10 @@ import { environment } from '@environments/environment';
 export class InfoHashService {
 	url = environment.providerURL;
 
-	constructor(private http: HttpClient) {}
+	constructor(
+		private http: HttpClient,
+		private messageHandlerService: MessageHandlerService
+	) {}
 
 	sendInfoHash(data: AddInfoHashRequestData): Observable<ArrayBuffer> {
 		const headers = new HttpHeaders({
@@ -64,6 +68,19 @@ export class InfoHashService {
 	}
 
 	formatDataString(data: FormDataModel): string {
+		if (
+			!data ||
+			!data.name ||
+			!data.surname ||
+			!data.dateOfBirth ||
+			!data.testDate ||
+			!data.testProvider ||
+			!data.testResult ||
+			!data.testLabName
+		) {
+			this.messageHandlerService.errorMessage('Incorrect data');
+			return;
+		}
 		const name = data.name.trim();
 		const surname = data.surname.trim();
 		const dataString = `name:${name};surname:${surname};dateOfBirth:${data.dateOfBirth};testDate:${data.testDate};testProvider:${data.testProvider};testResult:${data.testResult};labName:${data.testLabName};`;
