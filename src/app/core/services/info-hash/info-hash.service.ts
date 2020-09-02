@@ -68,6 +68,7 @@ export class InfoHashService {
 	}
 
 	formatDataString(data: FormDataModel): string {
+		console.log(data);
 		if (
 			!data ||
 			!data.name ||

@@ -90,6 +90,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
 				)
 			)
 			.subscribe((userMetadata: UserMetadata): void => {
+				console.log(userMetadata);
 				if (
 					userMetadata &&
 					userMetadata.testLabName &&
@@ -98,18 +99,9 @@ export class FormPageComponent implements OnInit, OnDestroy {
 					this.isDemoUser = userMetadata.demo;
 					this.testProvider = this.addDemoLabel(userMetadata.testProvider);
 					this.testLabName = this.addDemoLabel(userMetadata.testLabName);
+					this.setUserFields();
 				}
 			});
-	}
-
-	handleUserDataFromStorage(): void {
-		const userData = JSON.parse(localStorage.getItem('user'));
-		if (!userData) {
-			return;
-		}
-		this.isDemoUser = userData.demo;
-		this.testProvider = this.addDemoLabel(userData.testProvider);
-		this.testLabName = this.addDemoLabel(userData.testLabName);
 	}
 
 	addDemoLabel(data: string): string {
@@ -142,12 +134,15 @@ export class FormPageComponent implements OnInit, OnDestroy {
 			testLabName: new FormControl(),
 			v: new FormControl()
 		});
+		console.log(this.form.value);
+	}
+
+	setUserFields(): void {
 		this.form.patchValue({ testLabName: this.testLabName });
 		this.form.patchValue({ v: this.version });
 	}
 
 	signOut(): void {
-		// this.authService.signOut();
 		this.auth0Service.logout();
 	}
 

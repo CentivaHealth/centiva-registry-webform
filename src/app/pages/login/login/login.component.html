@@ -1,61 +1,15 @@
 <div class="login-container">
 	<div class="displayTable">
 		<div class="displayTableCell">
-			<!--			<form-->
-			<!--				class="authBlock"-->
-			<!--				[formGroup]="form"-->
-			<!--				(ngSubmit)="signIn(userName.value, userPassword.value)"-->
-			<!--			>-->
-			<form
-				class="authBlock"
-				[formGroup]="form"
-        (ngSubmit)="signIn(userName.value, userPassword.value)"
-			>
+			<div class="authBlock">
 				<h1 class="mt-40">Centiva Registry Webform</h1>
 				<h1 class="mt-40">Login</h1>
-
-				<div class="formGroup mt-40 item-holder">
-					<span class="input-label mb-10">E-mail</span>
-					<input
-						type="text"
-						formControlName="email"
-						class="input-text"
-						placeholder="E-mail"
-						#userName
-						required
-					/>
-				</div>
-
-				<div class="formGroup item-holder mt-20">
-					<span class="input-label mb-10">Password</span>
-					<input
-						type="password"
-						formControlName="password"
-						class="input-text"
-						placeholder="Password"
-						#userPassword
-						required
-					/>
-				</div>
-
-				<!-- Calling SignIn Api from AuthService -->
 				<div class="formGroup mt-20">
-					<button
-						type="submit"
-						class="button-primary"
-						[disabled]="!form.valid"
-						[ngClass]="{ 'button-primary-disabled': !form.valid }"
-					>
+					<button class="button-primary" (click)="signInAuth0()">
 						Sign in
 					</button>
 				</div>
-			</form>
+			</div>
 		</div>
 	</div>
 </div>
-<button (click)="signInAuth0()">sign with Auth0</button>
-<br>
-<button (click)="signOutAuth0()">sign out with Auth0</button>
-<br>
-<button (click)="qwe()">is authenticated</button>
-<h1>{{ isAuthenticated }}</h1>
