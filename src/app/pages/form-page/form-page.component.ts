@@ -61,7 +61,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
 	maxDate: Date;
 
 	constructor(
-		private authService: AuthService,
 		private auth0Service: Auth0Service,
 		private validationService: ValidationService,
 		private infoHashService: InfoHashService,
@@ -69,7 +68,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
 	) {}
 
 	ngOnInit(): void {
-		// this.handleUserDataFromStorage();
 		this.getUserMetadata();
 		this.maxDate = new Date();
 		this.qrDataString = 'default';
@@ -90,7 +88,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
 				)
 			)
 			.subscribe((userMetadata: UserMetadata): void => {
-				console.log(userMetadata);
 				if (
 					userMetadata &&
 					userMetadata.testLabName &&
@@ -134,7 +131,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
 			testLabName: new FormControl(),
 			v: new FormControl()
 		});
-		console.log(this.form.value);
 	}
 
 	setUserFields(): void {
