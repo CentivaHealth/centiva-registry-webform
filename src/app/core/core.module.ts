@@ -5,14 +5,12 @@ import {
 	SkipSelf
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '@core/services/auth/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
 	declarations: [],
-	imports: [CommonModule, BrowserAnimationsModule, HttpClientModule],
-	providers: [AuthService]
+	imports: [CommonModule, BrowserAnimationsModule, HttpClientModule]
 })
 export class CoreModule {
 	constructor(@Optional() @SkipSelf() parentModule?: CoreModule) {
