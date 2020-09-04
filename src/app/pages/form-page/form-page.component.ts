@@ -67,10 +67,11 @@ export class FormPageComponent implements OnInit, OnDestroy {
 	) {}
 
 	ngOnInit(): void {
-		this.getUserMetadata();
 		this.maxDate = new Date();
 		this.qrDataString = 'default';
 		this.version = '1';
+		this.createForm();
+		this.getUserMetadata();
 	}
 
 	getUserMetadata(): void {
@@ -95,7 +96,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
 			this.isDemoUser = userMetadata.demo;
 			this.testProvider = this.addDemoLabel(userMetadata.testProvider);
 			this.testLabName = this.addDemoLabel(userMetadata.testLabName);
-			this.createForm();
 			this.setUserFields();
 		}
 	}
