@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormPageComponent } from '@pages/form-page/form-page.component';
 import { OwlDateTimeModule } from 'ng-pick-datetime';
 import { QrBuilderWrapperModule } from '@core/libs/qr-builder-wrapper/qr-builder-wrapper.module';
@@ -9,7 +8,7 @@ import { InfoHashService } from '@core/services/info-hash/info-hash.service';
 import { MessageHandlerService } from '@core/services/message-handler/message-handler.service';
 import { MomentModule } from 'ngx-moment';
 import { Auth0Service } from '@core/services/auth0/auth0.service';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 
 describe('FormPageComponent', (): void => {
 	let component: FormPageComponent;
@@ -20,9 +19,20 @@ describe('FormPageComponent', (): void => {
 	let infoHashService: InfoHashService;
 	let messageHandlerService: MessageHandlerService;
 
+	let form = new FormGroup({
+		name: new FormControl('', []),
+		surname: new FormControl('', []),
+		dateOfBirth: new FormControl('', []),
+		testDate: new FormControl('', []),
+		testProvider: new FormControl('', []),
+		testResult: new FormControl('', []),
+		testLabName: new FormControl(),
+		v: new FormControl()
+	});
+
 	beforeEach(async((): void => {
 		auth0Service = jasmine.createSpyObj('Auth0Service', ['userProfile$']);
-		auth0Service.getUser$ = (): Observable<any> => of();
+		auth0Service.userProfile$ = of();
 		validationService = jasmine.createSpyObj('ValidationService', [
 			'setValidators'
 		]);
@@ -41,15 +51,17 @@ describe('FormPageComponent', (): void => {
 			],
 			providers: [
 				FormPageComponent,
-				{ provide: Auth0Service, useValue: Auth0Service },
+				{ provide: Auth0Service, useValue: auth0Service },
 				{ provide: ValidationService, useValue: validationService },
 				{ provide: InfoHashService, useValue: infoHashService },
-				{ provide: MessageHandlerService, useValue: messageHandlerService }
+				{ provide: MessageHandlerService, useValue: messageHandlerService },
+				{ provide: FormGroup, useValue: form }
 			]
 		}).compileComponents();
 
 		fixture = TestBed.createComponent(FormPageComponent);
 		component = fixture.componentInstance;
+		component.form = form;
 		fixture.detectChanges();
 	}));
 
