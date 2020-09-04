@@ -133,8 +133,8 @@ export class FormPageComponent implements OnInit, OnDestroy {
 	}
 
 	setUserFields(): void {
-		this.form.value.testLabName = this.testLabName;
-		this.form.value.v = this.version;
+		this.form.patchValue({ testLabName: this.testLabName });
+		this.form.patchValue({ v: this.version });
 	}
 
 	signOut(): void {
