@@ -23,7 +23,7 @@ export class InfoHashService {
 
 	sendInfoHash(data: AddInfoHashRequestData): Observable<ArrayBuffer> {
 		const headers = new HttpHeaders({
-			Authorization: this.getAccessToken(),
+			Authorization: this.getIdToken(),
 			'Content-Type': 'application/x-protobuf',
 			Accept: 'application/x-protobuf'
 		});
@@ -33,10 +33,8 @@ export class InfoHashService {
 		});
 	}
 
-	getAccessToken(): string {
-		const user = JSON.parse(localStorage.getItem('user'));
-		const accessToken = user.stsTokenManager.accessToken;
-		return accessToken;
+	getIdToken(): string {
+		return localStorage.getItem('idToken');
 	}
 
 	prepareRequestArrayBuffer(data: AddInfoHashRequestData) {
@@ -68,7 +66,6 @@ export class InfoHashService {
 	}
 
 	formatDataString(data: FormDataModel): string {
-		console.log(data);
 		if (
 			!data ||
 			!data.name ||

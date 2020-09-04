@@ -32,7 +32,10 @@ export class Auth0Service {
 	// concatMap: Using the client instance, call SDK method; SDK returns a promise
 	// from: Convert that resulting promise into an observable
 	isAuthenticated$ = this.auth0Client$.pipe(
-		concatMap((client: Auth0Client) => from(client.isAuthenticated())),
+		concatMap((client: Auth0Client) => {
+			this.handleIdToken(client);
+			return from(client.isAuthenticated());
+		}),
 		tap((res) => (this.loggedIn = res))
 	);
 	handleRedirectCallback$ = this.auth0Client$.pipe(
@@ -61,8 +64,19 @@ export class Auth0Service {
 		);
 	}
 
+	private handleIdToken(client: Auth0Client): void {
+		if (!client) {
+			return;
+		}
+		client.getIdTokenClaims().then((data) => {
+			if (!data) {
+				return;
+			}
+			localStorage.setItem('idToken', data.__raw);
+		});
+	}
+
 	private localAuthSetup() {
-		// console.log('localAuthSetup');
 		// This should only be called on app initialization
 		// Set up local authentication streams
 		const checkAuth$ = this.isAuthenticated$.pipe(
@@ -124,6 +138,7 @@ export class Auth0Service {
 	logout() {
 		// Ensure Auth0 client instance exists
 		this.auth0Client$.subscribe((client: Auth0Client) => {
+			localStorage.setItem('idToken', null);
 			// Call method to log out
 			client.logout({
 				client_id: 'f7q0H9EVPLEOYEqQu1MMwfC8MppRTRSx',

@@ -5,7 +5,6 @@ import {
 	OnInit,
 	ViewChild
 } from '@angular/core';
-import { AuthService } from '@core/services/auth/auth.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as jsPDF from 'jspdf';
 import { ValidationService } from '@core/services/validation/validation.service';
@@ -20,9 +19,9 @@ import { InfoHashService } from '@core/services/info-hash/info-hash.service';
 import { MessageHandlerService } from '@core/services/message-handler/message-handler.service';
 import { AddInfoHashRequestData } from '@models/provider-add-info-hash.model';
 import { Auth0Service } from '@core/services/auth0/auth0.service';
-import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { UserMetadata } from '@core/models/user.model';
+import { Subject } from 'rxjs';
 
 // Date picker formats
 export const MY_MOMENT_FORMATS = {
@@ -72,7 +71,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
 		this.maxDate = new Date();
 		this.qrDataString = 'default';
 		this.version = '1';
-		this.createForm();
 	}
 
 	getUserMetadata(): void {
@@ -88,17 +86,18 @@ export class FormPageComponent implements OnInit, OnDestroy {
 				)
 			)
 			.subscribe((userMetadata: UserMetadata): void => {
-				if (
-					userMetadata &&
-					userMetadata.testLabName &&
-					userMetadata.testProvider
-				) {
-					this.isDemoUser = userMetadata.demo;
-					this.testProvider = this.addDemoLabel(userMetadata.testProvider);
-					this.testLabName = this.addDemoLabel(userMetadata.testLabName);
-					this.setUserFields();
-				}
+				this.handleUserMetadata(userMetadata);
 			});
+	}
+
+	handleUserMetadata(userMetadata: UserMetadata): void {
+		if (userMetadata && userMetadata.testLabName && userMetadata.testProvider) {
+			this.isDemoUser = userMetadata.demo;
+			this.testProvider = this.addDemoLabel(userMetadata.testProvider);
+			this.testLabName = this.addDemoLabel(userMetadata.testLabName);
+			this.createForm();
+			this.setUserFields();
+		}
 	}
 
 	addDemoLabel(data: string): string {

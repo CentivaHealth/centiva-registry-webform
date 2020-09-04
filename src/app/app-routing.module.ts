@@ -7,9 +7,8 @@ import { AuthGuard } from '@shared/guard/auth.guard';
 const routes: Routes = [
 	{ path: '', redirectTo: '/login', pathMatch: 'full' },
 	{ path: 'login', component: LoginComponent },
-	{ path: 'form', component: FormPageComponent },
-	// { path: 'form', component: FormPageComponent, canActivate: [AuthGuard] },
-	// { path: '**', redirectTo: '/login', pathMatch: 'full' }
+	{ path: 'form', component: FormPageComponent, canActivate: [AuthGuard] },
+	{ path: '**', redirectTo: '/login', pathMatch: 'full' }
 ];
 
 @NgModule({
