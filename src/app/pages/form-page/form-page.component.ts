@@ -22,6 +22,7 @@ import { Auth0Service } from '@core/services/auth0/auth0.service';
 import { map, takeUntil } from 'rxjs/operators';
 import { UserMetadata } from '@core/models/user.model';
 import { Subject } from 'rxjs';
+import { environment } from '@environments/environment';
 
 // Date picker formats
 export const MY_MOMENT_FORMATS = {
@@ -81,7 +82,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
 				map(
 					(data): UserMetadata => {
 						if (data) {
-							return data[`${window.location.origin}/userMetadata`];
+							return data[environment.auth0UserMetadataNamespace];
 						}
 					}
 				)
