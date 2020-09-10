@@ -180,7 +180,13 @@ export class FormPageComponent implements OnInit, OnDestroy {
 	onSendInfoHashSuccess(): void {
 		this.downloadPDF();
 		this.messageHandlerService.successMessage('PDF was created.');
+		this.resetForm();
+	}
+
+	resetForm(): void {
 		this.form.reset();
+		this.form.patchValue({ testLabName: this.testLabName });
+		this.form.patchValue({ v: this.version });
 	}
 
 	onSendInfoHashError(error): void {
