@@ -69,7 +69,7 @@
     <button
 			type="submit"
 			class="button-primary mt-40"
-      [disabled]="!form.valid"
+      [disabled]="!form.valid || isSubmitButtonDisabled"
 		>
 			Create PDF
 		</button>
