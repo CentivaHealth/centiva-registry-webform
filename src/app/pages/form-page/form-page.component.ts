@@ -59,6 +59,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
 	addInfoHashData: AddInfoHashRequestData;
 	@ViewChild('htmlData') htmlData: ElementRef;
 	maxDate: Date;
+	isSubmitButtonDisabled = false;
 
 	constructor(
 		private auth0Service: Auth0Service,
@@ -144,6 +145,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
 
 	onSubmit(): void {
 		this.prepareAddInfoHashData();
+		this.isSubmitButtonDisabled = true;
 		this.infoHashService.sendInfoHash(this.addInfoHashData).subscribe(
 			(): void => this.onSendInfoHashSuccess(),
 			(error): void => this.onSendInfoHashError(error)
@@ -181,6 +183,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
 		this.downloadPDF();
 		this.messageHandlerService.successMessage('PDF was created.');
 		this.resetForm();
+		this.isSubmitButtonDisabled = false;
 	}
 
 	resetForm(): void {
@@ -190,6 +193,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
 	}
 
 	onSendInfoHashError(error): void {
+		this.isSubmitButtonDisabled = false;
 		this.messageHandlerService.decodedErrorMessage(error);
 	}
 
