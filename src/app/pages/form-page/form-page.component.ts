@@ -49,6 +49,7 @@ export const MY_MOMENT_FORMATS = {
 	]
 })
 export class FormPageComponent implements OnInit, OnDestroy {
+	title = 'Test Result';
 	unsubscribe: Subject<void> = new Subject<void>();
 	isDemoUser: boolean;
 	version: string;
