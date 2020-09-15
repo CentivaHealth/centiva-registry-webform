@@ -5,6 +5,6 @@ import { MomentModule } from 'ngx-moment';
 @NgModule({
 	declarations: [],
 	imports: [CommonModule, MomentModule],
-  exports: [MomentModule]
+	exports: [MomentModule]
 })
 export class DateTimePipesWrapperModule {}

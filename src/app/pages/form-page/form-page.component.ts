@@ -22,6 +22,7 @@ import { Auth0Service } from '@core/services/auth0/auth0.service';
 import { map, takeUntil } from 'rxjs/operators';
 import { UserMetadata } from '@core/models/user.model';
 import { Subject } from 'rxjs';
+import { environment } from '@environments/environment';
 
 // Date picker formats
 export const MY_MOMENT_FORMATS = {
@@ -58,6 +59,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
 	addInfoHashData: AddInfoHashRequestData;
 	@ViewChild('htmlData') htmlData: ElementRef;
 	maxDate: Date;
+	isSubmitButtonDisabled = false;
 
 	constructor(
 		private auth0Service: Auth0Service,
@@ -81,7 +83,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
 				map(
 					(data): UserMetadata => {
 						if (data) {
-							return data[`${window.location.origin}/userMetadata`];
+							return data[environment.auth0UserMetadataNamespace];
 						}
 					}
 				)
@@ -143,6 +145,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
 
 	onSubmit(): void {
 		this.prepareAddInfoHashData();
+		this.isSubmitButtonDisabled = true;
 		this.infoHashService.sendInfoHash(this.addInfoHashData).subscribe(
 			(): void => this.onSendInfoHashSuccess(),
 			(error): void => this.onSendInfoHashError(error)
@@ -179,10 +182,18 @@ export class FormPageComponent implements OnInit, OnDestroy {
 	onSendInfoHashSuccess(): void {
 		this.downloadPDF();
 		this.messageHandlerService.successMessage('PDF was created.');
+		this.resetForm();
+		this.isSubmitButtonDisabled = false;
+	}
+
+	resetForm(): void {
 		this.form.reset();
+		this.form.patchValue({ testLabName: this.testLabName });
+		this.form.patchValue({ v: this.version });
 	}
 
 	onSendInfoHashError(error): void {
+		this.isSubmitButtonDisabled = false;
 		this.messageHandlerService.decodedErrorMessage(error);
 	}
 
