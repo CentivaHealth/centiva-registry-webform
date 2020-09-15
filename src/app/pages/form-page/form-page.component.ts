@@ -83,7 +83,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
 				map(
 					(data): UserMetadata => {
 						if (data) {
-							return data[environment.auth0UserMetadataNamespace];
+							return data[environment.auth0Config.userMetadataNamespace];
 						}
 					}
 				)
