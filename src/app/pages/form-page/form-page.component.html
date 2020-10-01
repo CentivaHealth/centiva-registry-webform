@@ -10,7 +10,7 @@
 		(ngSubmit)="onSubmit()"
 		class="form-fields-container"
 	>
-		<h1 class="mt-30 mb-40">SARS-CoV-2 Test Result</h1>
+		<h1 class="mt-30 mb-40">{{title}}</h1>
 
 		<label class="input-box">
 			<span class="mb-10">Name</span>
@@ -90,7 +90,7 @@
 <div class="pdf-container" id="htmlData" #htmlData>
 	<div class="data-container">
 		<div class="fields-box">
-			<h1>SARS-CoV-2 Test Result</h1>
+			<h1>{{title}}</h1>
 			<br />
 			<h3>Name: {{ form.value.name }}</h3>
 			<br />

@@ -49,6 +49,7 @@ export const MY_MOMENT_FORMATS = {
 	]
 })
 export class FormPageComponent implements OnInit, OnDestroy {
+	title = 'Test Result';
 	unsubscribe: Subject<void> = new Subject<void>();
 	isDemoUser: boolean;
 	version: string;
@@ -83,7 +84,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
 				map(
 					(data): UserMetadata => {
 						if (data) {
-							return data[environment.auth0UserMetadataNamespace];
+							return data[environment.auth0Config.userMetadataNamespace];
 						}
 					}
 				)
