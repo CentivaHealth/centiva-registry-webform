@@ -8,9 +8,11 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
+const IMPORTS = [CommonModule, BrowserAnimationsModule, HttpClientModule];
+
 @NgModule({
 	declarations: [],
-	imports: [CommonModule, BrowserAnimationsModule, HttpClientModule]
+	imports: [...IMPORTS]
 })
 export class CoreModule {
 	constructor(@Optional() @SkipSelf() parentModule?: CoreModule) {

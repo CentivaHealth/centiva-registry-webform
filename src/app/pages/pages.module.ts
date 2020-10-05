@@ -4,8 +4,11 @@ import { LoginComponent } from '@pages/login/login/login.component';
 import { FormPageComponent } from '@pages/form-page/form-page.component';
 import { SharedModule } from '@shared/shared.module';
 
+const DECLARATIONS = [LoginComponent, FormPageComponent];
+const IMPORTS = [CommonModule, SharedModule];
+
 @NgModule({
-	declarations: [LoginComponent, FormPageComponent],
-	imports: [CommonModule, SharedModule]
+	declarations: [...DECLARATIONS],
+	imports: [...IMPORTS]
 })
 export class PagesModule {}

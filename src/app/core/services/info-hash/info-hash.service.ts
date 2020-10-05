@@ -9,6 +9,7 @@ import {
 } from '@models/provider-add-info-hash.model';
 import { environment } from '@environments/environment';
 import { MessageHandlerService } from '@core/services/message-handler/message-handler.service';
+import { HashData } from '@core/services/info-hash-v2/hash-data';
 
 @Injectable({
 	providedIn: 'root'
@@ -65,23 +66,16 @@ export class InfoHashService {
 			.join('');
 	}
 
-	formatDataString(data: FormDataModel): string {
-		if (
-			!data ||
-			!data.name ||
-			!data.surname ||
-			!data.dateOfBirth ||
-			!data.testDate ||
-			!data.testProvider ||
-			!data.testResult ||
-			!data.testLabName
-		) {
-			this.messageHandlerService.errorMessage('Incorrect data');
-			return;
-		}
-		const name = data.name.trim();
-		const surname = data.surname.trim();
-		const dataString = `name:${name};surname:${surname};dateOfBirth:${data.dateOfBirth};testDate:${data.testDate};testProvider:${data.testProvider};testResult:${data.testResult};labName:${data.testLabName};`;
-		return dataString;
+	private formatDataString(data: FormDataModel): string {
+		const build = HashData.builder()
+			.setName(data.name)
+			.setSurname(data.surname)
+			.setDateOfBirth(data.dateOfBirth)
+			.setTestDate(data.testDate)
+			.setTestProvider(data.testProvider)
+			.setTestResult(data.testResult)
+			.setTestLabName(data.testLabName)
+			.build();
+		return HashData.prototype.toDataString.call(build);
 	}
 }
