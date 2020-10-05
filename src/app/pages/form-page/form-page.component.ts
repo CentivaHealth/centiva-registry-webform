@@ -72,7 +72,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
 	ngOnInit(): void {
 		this.maxDate = new Date();
 		this.qrDataString = 'default';
-		this.version = '1';
+		this.version = '2';
 		this.createForm();
 		this.getUserMetadata();
 	}
