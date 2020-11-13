@@ -8,8 +8,7 @@ import {
 	AddInfoHashRequestModel
 } from '@models/provider-add-info-hash.model';
 import { environment } from '@environments/environment';
-import { MessageHandlerService } from '@core/services/message-handler/message-handler.service';
-import { HashData } from '@core/services/info-hash-v2/hash-data';
+import { HashData } from 'info-hash';
 
 @Injectable({
 	providedIn: 'root'
@@ -18,8 +17,7 @@ export class InfoHashService {
 	url = environment.providerURL;
 
 	constructor(
-		private http: HttpClient,
-		private messageHandlerService: MessageHandlerService
+		private http: HttpClient
 	) {}
 
 	sendInfoHash(data: AddInfoHashRequestData): Observable<ArrayBuffer> {
@@ -46,16 +44,15 @@ export class InfoHashService {
 
 		const offset = encodedRequest.byteOffset;
 		const length = encodedRequest.byteLength;
-		const requestArrayBuffer = encodedRequest.buffer.slice(
-			offset,
-			offset + length
-		);
-		return requestArrayBuffer;
+		return encodedRequest.buffer.slice(
+		  offset,
+      offset + length
+    );
 	}
 
 	hashDataString(formData: FormDataModel): string {
 		const hash = new SHA3(512);
-		hash.update(this.formatDataString(formData));
+		hash.update(InfoHashService.formatDataString(formData));
 		const encoded = hash.digest();
 		return this.convertToHex(encoded);
 	}
@@ -66,7 +63,7 @@ export class InfoHashService {
 			.join('');
 	}
 
-	private formatDataString(data: FormDataModel): string {
+	private static formatDataString(data: FormDataModel): string {
 		const build = HashData.builder()
 			.setName(data.name)
 			.setSurname(data.surname)
@@ -75,7 +72,10 @@ export class InfoHashService {
 			.setTestProvider(data.testProvider)
 			.setTestResult(data.testResult)
 			.setTestLabName(data.testLabName)
+			.addMetadata('version', '2')
+			// FIXME remove this
+			.addMetadata('email', undefined)
 			.build();
-		return HashData.prototype.toDataString.call(build);
+		return build.toDataString();
 	}
 }

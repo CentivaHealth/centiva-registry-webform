@@ -35,6 +35,7 @@
 		"@improbable-eng/grpc-web": "^0.12.0",
 		"@types/google-protobuf": "^3.7.2",
 		"angularx-qrcode": "^2.3.4",
+		"info-hash": "git+ssh://bitbucket.org:hitfoundation/centiva-registry-hash-ts.git#feature/info-hash",
 		"firebase": "^7.15.1",
 		"google-protobuf": "^3.12.2",
 		"jspdf": "^1.5.3",
@@ -50,7 +51,8 @@
 		"zone.js": "~0.10.2"
 	},
 	"devDependencies": {
-		"@angular-devkit/build-angular": "~0.901.8",
+		"@angular-devkit/architect": "~0.900",
+		"@angular-devkit/build-angular": "^0.1002.0",
 		"@angular/cli": "~9.1.8",
 		"@angular/compiler-cli": "~9.1.11",
 		"@types/jasmine": "~3.5.0",
@@ -68,6 +70,10 @@
 		"eslint-plugin-prettier": "^3.1.4",
 		"eslint-plugin-typescript": "^0.14.0",
 		"eslint-restricted-globals": "^0.2.0",
+		"firebase-tools": "^8.0.0",
+		"fuzzy": "^0.1.3",
+		"inquirer": "^6.2.2",
+		"inquirer-autocomplete-prompt": "^1.0.1",
 		"jasmine-core": "~3.5.0",
 		"jasmine-spec-reporter": "~4.2.1",
 		"karma": "~5.0.0",
@@ -80,11 +86,6 @@
 		"ts-node": "~8.3.0",
 		"tslint": "~6.1.0",
 		"typescript": "~3.8.3",
-		"typescript-eslint-parser": "^22.0.0",
-		"@angular-devkit/architect": "~0.900",
-		"firebase-tools": "^8.0.0",
-		"fuzzy": "^0.1.3",
-		"inquirer": "^6.2.2",
-		"inquirer-autocomplete-prompt": "^1.0.1"
+		"typescript-eslint-parser": "^22.0.0"
 	}
 }
