@@ -35,7 +35,7 @@
 		"@improbable-eng/grpc-web": "^0.12.0",
 		"@types/google-protobuf": "^3.7.2",
 		"angularx-qrcode": "^2.3.4",
-		"info-hash": "git+ssh://bitbucket.org:hitfoundation/centiva-registry-hash-ts.git#feature/info-hash",
+		"centiva-registry-hash-ts": "git+ssh://git@bitbucket.org/hitfoundation/centiva-registry-hash-ts.git",
 		"firebase": "^7.15.1",
 		"google-protobuf": "^3.12.2",
 		"jspdf": "^1.5.3",

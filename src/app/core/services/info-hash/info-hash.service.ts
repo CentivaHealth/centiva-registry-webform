@@ -8,7 +8,7 @@ import {
 	AddInfoHashRequestModel
 } from '@models/provider-add-info-hash.model';
 import { environment } from '@environments/environment';
-import { HashData } from 'info-hash';
+import { HashData, MetadataField } from 'centiva-registry-hash-ts';
 
 @Injectable({
 	providedIn: 'root'
@@ -16,9 +16,7 @@ import { HashData } from 'info-hash';
 export class InfoHashService {
 	url = environment.providerURL;
 
-	constructor(
-		private http: HttpClient
-	) {}
+	constructor(private http: HttpClient) {}
 
 	sendInfoHash(data: AddInfoHashRequestData): Observable<ArrayBuffer> {
 		const headers = new HttpHeaders({
@@ -44,10 +42,7 @@ export class InfoHashService {
 
 		const offset = encodedRequest.byteOffset;
 		const length = encodedRequest.byteLength;
-		return encodedRequest.buffer.slice(
-		  offset,
-      offset + length
-    );
+		return encodedRequest.buffer.slice(offset, offset + length);
 	}
 
 	hashDataString(formData: FormDataModel): string {
@@ -64,6 +59,11 @@ export class InfoHashService {
 	}
 
 	private static formatDataString(data: FormDataModel): string {
+    const metadataArr = [];
+
+    const metadataVersion = new MetadataField('version', '2');
+    metadataArr.push(metadataVersion);
+
 		const build = HashData.builder()
 			.setName(data.name)
 			.setSurname(data.surname)
@@ -72,9 +72,7 @@ export class InfoHashService {
 			.setTestProvider(data.testProvider)
 			.setTestResult(data.testResult)
 			.setTestLabName(data.testLabName)
-			.addMetadata('version', '2')
-			// FIXME remove this
-			.addMetadata('email', undefined)
+      .setMetadata(metadataArr)
 			.build();
 		return build.toDataString();
 	}
