@@ -6,7 +6,7 @@ import {
 	ViewChild
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import * as jsPDF from 'jspdf';
+import * as JsPDF from 'jspdf';
 import { ValidationService } from '@core/services/validation/validation.service';
 import {
 	DateTimeAdapter,
@@ -166,7 +166,6 @@ export class FormPageComponent implements OnInit, OnDestroy {
 			this.form.value.testDate,
 			'YYYY-MM-DD'
 		);
-		this.addInfoHashData = null;
 		this.addInfoHashData = {
 			infoHash: this.infoHashService.hashDataString(this.form.value),
 			testProvider: this.form.value.testProvider || null,
@@ -221,7 +220,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
 		const qrcode = document.getElementById('qrcode');
 		const data = this.htmlData.nativeElement;
 		// form data
-		const doc = new jsPDF('p', 'pt', 'a4');
+		const doc = new JsPDF('p', 'pt', 'a4');
 		doc.fromHTML(data.innerHTML, 150, 150, {
 			width: 1200
 		});
