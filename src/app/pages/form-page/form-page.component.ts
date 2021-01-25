@@ -20,7 +20,7 @@ import { MessageHandlerService } from '@core/services/message-handler/message-ha
 import { AddInfoHashRequestData } from '@models/provider-add-info-hash.model';
 import { Auth0Service } from '@core/services/auth0/auth0.service';
 import { map, takeUntil } from 'rxjs/operators';
-import { UserMetadata } from '@core/models/user.model';
+import { Metadata } from '@core/models/user.model';
 import { Subject } from 'rxjs';
 import { environment } from '@environments/environment';
 
@@ -74,31 +74,32 @@ export class FormPageComponent implements OnInit, OnDestroy {
 		this.qrDataString = 'default';
 		this.version = '2';
 		this.createForm();
-		this.getUserMetadata();
+		this.getMetadata();
 	}
 
-	getUserMetadata(): void {
+	getMetadata(): void {
 		this.auth0Service.userProfile$
 			.pipe(
 				takeUntil(this.unsubscribe),
 				map(
-					(data): UserMetadata => {
+					(data): Metadata => {
 						if (data) {
-							return data[environment.auth0Config.userMetadataNamespace];
+							return data[environment.auth0Config.metadataNamespace];
 						}
+						return null;
 					}
 				)
 			)
-			.subscribe((userMetadata: UserMetadata): void => {
-				this.handleUserMetadata(userMetadata);
+			.subscribe((metadata: Metadata): void => {
+				this.handleMetadata(metadata);
 			});
 	}
 
-	handleUserMetadata(userMetadata: UserMetadata): void {
-		if (userMetadata && userMetadata.testLabName && userMetadata.testProvider) {
-			this.isDemoUser = userMetadata.demo;
-			this.testProvider = this.addDemoLabel(userMetadata.testProvider);
-			this.testLabName = this.addDemoLabel(userMetadata.testLabName);
+	handleMetadata(metadata: Metadata): void {
+		if (metadata && metadata.testLabName && metadata.testProvider) {
+			this.isDemoUser = metadata.demo;
+			this.testProvider = this.addDemoLabel(metadata.testProvider);
+			this.testLabName = this.addDemoLabel(metadata.testLabName);
 			this.setUserFields();
 		}
 	}

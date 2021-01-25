@@ -6,7 +6,7 @@ export interface UserModel {
 	testProvider: string;
 }
 
-export interface UserMetadata {
+export interface Metadata {
 	demo: boolean;
 	testLabId: string;
 	testLabName: string;
