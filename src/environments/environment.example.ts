@@ -14,7 +14,12 @@ export const environment = {
 		appId: '',
 		measurementId: ''
 	},
-	providerURL: 'localhost:8080'
+	auth0Config: {
+		metadataNamespace: 'https://registry.centiva.health/appMetadata',
+		domain: '',
+		client_id: ''
+	},
+	providerURL: 'http://localhost:8080/'
 };
 
 /*
