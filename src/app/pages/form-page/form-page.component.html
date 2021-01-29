@@ -4,7 +4,7 @@
 			Log Out
 		</button>
 	</div>
-
+  <div class="loader" *ngIf="isSpinner"></div>
 	<form
 		[formGroup]="form"
 		(ngSubmit)="onSubmit()"

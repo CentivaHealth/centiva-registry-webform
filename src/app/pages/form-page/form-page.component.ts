@@ -60,6 +60,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
 	addInfoHashData: AddInfoHashRequestData;
 	@ViewChild('htmlData') htmlData: ElementRef;
 	maxDate: Date;
+	isSpinner = false;
 	isSubmitButtonDisabled = false;
 
 	constructor(
@@ -149,7 +150,10 @@ export class FormPageComponent implements OnInit, OnDestroy {
 		this.prepareAddInfoHashData();
 		this.isSubmitButtonDisabled = true;
 		this.infoHashService.sendInfoHash(this.addInfoHashData).subscribe(
-			(): void => this.onSendInfoHashSuccess(),
+			(): void => {
+				this.isSpinner = true;
+				this.onSendInfoHashSuccess();
+			},
 			(error): void => this.onSendInfoHashError(error)
 		);
 
@@ -181,9 +185,10 @@ export class FormPageComponent implements OnInit, OnDestroy {
 	}
 
 	onSendInfoHashSuccess(): void {
+		this.isSpinner = true;
 		this.downloadPDF();
 		this.messageHandlerService.successMessage('PDF was created.');
-		this.resetForm();
+		// this.resetForm();
 		this.isSubmitButtonDisabled = false;
 	}
 
@@ -217,7 +222,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
 	}
 
 	// downloading PDF
-	downloadPDF(): void {
+	downloadPDF() {
 		const qrcode = document.getElementById('qrcode');
 		const data = this.htmlData.nativeElement;
 		// form data
@@ -229,9 +234,12 @@ export class FormPageComponent implements OnInit, OnDestroy {
 		// QR code img
 		const imageData = this.getBase64Image(qrcode.firstChild.firstChild);
 		doc.addImage(imageData, 'JPG', 136, 450);
-		doc.save(
-			`${this.form.value.name}-${this.form.value.surname}-test-result.pdf`
-		);
+		doc
+			.save(
+				`${this.form.value.name}-${this.form.value.surname}-test-result.pdf`,
+				{ returnPromise: true }
+			)
+			.then(() => (this.isSpinner = false));
 	}
 
 	getBase64Image(img): string {
