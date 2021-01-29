@@ -188,7 +188,7 @@ export class FormPageComponent implements OnInit, OnDestroy {
 		this.isSpinner = true;
 		this.downloadPDF();
 		this.messageHandlerService.successMessage('PDF was created.');
-		// this.resetForm();
+		this.resetForm();
 		this.isSubmitButtonDisabled = false;
 	}
 
