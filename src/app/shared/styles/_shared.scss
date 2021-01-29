@@ -69,6 +69,8 @@ button {
 	background: $blue-50;
 	color: $white;
 	border-radius: 8px;
+  margin-bottom: 40px;
+  border: none;
 	font-size: $medium-body-text;
 
 	&:active {
@@ -97,6 +99,7 @@ button {
 	background: $blue-50;
 	color: $white;
 	border-radius: 8px;
+  border: none;
 	font-size: $medium-body-text;
 
 	&:active {
