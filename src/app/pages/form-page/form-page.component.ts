@@ -239,7 +239,11 @@ export class FormPageComponent implements OnInit, OnDestroy {
 				`${this.form.value.name}-${this.form.value.surname}-test-result.pdf`,
 				{ returnPromise: true }
 			)
-			.then(() => (this.isSpinner = false));
+			.then(() => (this.isSpinner = false))
+			.catch(() => {
+				this.messageHandlerService.errorMessage('PDF creation failed');
+				this.isSpinner = false;
+			});
 	}
 
 	getBase64Image(img): string {
